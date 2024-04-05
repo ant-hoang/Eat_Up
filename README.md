@@ -2,6 +2,6 @@
 
 ## Database Schema Design
 
-![alt text](image.png)
+[db-schema]: ./images/Eat_It_Schema.png
 
 ## API Documentation
