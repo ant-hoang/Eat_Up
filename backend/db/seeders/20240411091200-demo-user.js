@@ -11,9 +11,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    options.tableName = 'Users';
-    return queryInterface.bulkInsert(options, [
+  async up (queryInterface, Sequelize) {
+    await User.bulkCreate([
       {
         email: 'demo@user.io',
         username: 'Demo-lition',
@@ -35,7 +34,7 @@ module.exports = {
         firstName: 'Faker',
         lastName: 'Non-user'
       },
-    ], {})
+    ], { validate: true })
   },
 
   down: async (queryInterface, Sequelize) => {
