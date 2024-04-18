@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 
-const { Bookmark } = require('../models')
+const { Like } = require('../models')
 
 let options = {}
 if (process.env.NODE_ENV === 'production') {
@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Bookmark.bulkCreate([
+    await Like.bulkCreate([
       {
         userId: 1,
         recipeId: 4,
@@ -32,7 +32,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    options.tableName = 'Bookmarks';
+    options.tableName = 'Likes';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       userId: { [Op.in]: [1, 2, 3] }

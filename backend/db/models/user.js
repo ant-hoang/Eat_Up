@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Recipe, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
       User.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
       User.hasMany(models.Bookmark, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Like, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
     }
   }
   User.init({
