@@ -9,15 +9,14 @@ const { Recipe, User, Like } = require('../../db/models')
 const router = express.Router()
 
 router.get('/current', requireAuth, async (req, res) => {
-  // Need to add num_likes to response
   const user_id = req.user.id
   const allRecipes = await Recipe.findAll({ where: { userId: user_id }})
 
   let recipes = []
   for (const recipe of allRecipes) {
-    let numLikes = await Like.findAll({ where: { recipeId: recipe.id}})
+    const { count } = await Like.findAndCountAll({ where: { recipeId: recipe.id}})
     let setRecipe = recipe.toJSON()
-    setRecipe.numLikes = numLikes.length
+    setRecipe.numLikes = count
     recipes.push(setRecipe)
   }
   
@@ -25,13 +24,12 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-  // Need to add num_likes to response
   const allRecipes = await Recipe.findAll()
   let recipes = []
   for (const recipe of allRecipes) {
-    let numLikes = await Like.findAll({ where: { recipeId: recipe.id}})
+    const { count } = await Like.findAndCountAll({ where: { recipeId: recipe.id}})
     let setRecipe = recipe.toJSON()
-    setRecipe.numLikes = numLikes.length
+    setRecipe.numLikes = count
     recipes.push(setRecipe)
   }
 
