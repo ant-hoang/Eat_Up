@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Recipe, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
       User.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Bookmark, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
     }
   }
   User.init({
