@@ -3,11 +3,11 @@ const express = require('express')
 const { requireAuth } = require('../../utils/auth')
 const { User, Recipe, Ingredient, Like, sequelize } = require('../../db/models')
 
-// Used as reference when importing validations for recipes
-// const { validateSignup } = require('../../utils/validators/users')
+const { validateRecipe, validateIngredient } = require('../../utils/validators/recipes')
 
 const router = express.Router()
 
+// gets recipes based on current logged user
 router.get('/current', requireAuth, async (req, res) => {
   const user_id = req.user.id
   const recipes = await Recipe.findAll({ 
@@ -26,6 +26,58 @@ router.get('/current', requireAuth, async (req, res) => {
   res.json({ "Recipes": recipesJSON })
 })
 
+// delete an ingredient to a recipe specified by id
+router.delete('/:recipeId/ingredients/:ingredientId', requireAuth, async (req, res, next) => {
+  const { recipeId, ingredientId } = req.params
+  const currUserId = req.user.id
+
+  try {
+    const ingredient = await Ingredient.findByPk(+ingredientId)
+    if (!ingredient) throw new Error('Ingredient could\'t be found')
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (recipe.userId !== +currUserId || ingredient.recipeId !== recipe.id) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+
+    await ingredient.destroy()
+
+    res.json({ message: 'Successfully deleted' })
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+// add an ingredient to a recipe specified by id
+router.post('/:recipeId/ingredients', requireAuth, validateIngredient, async (req, res, next) => {
+  const { recipeId } = req.params
+  const { name, quantity, metric } = req.body
+  const currUserId = req.user.id
+
+  try {
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (!recipe) throw new Error('Recipe could\'t be found')
+    if (recipe.userId !== +currUserId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+    console.log("INGREDIENT", {"name": name, "quantity": quantity, "metric": metric})
+    const ingredient = await Ingredient.create({ name, quantity, metric, recipeId: +recipeId })
+
+    res.status(201)
+    res.json(ingredient)
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+// gets a recipe specified by id
 router.get('/:recipeId', async (req, res, next) => {
   const { recipeId } = req.params;
 
@@ -50,6 +102,72 @@ router.get('/:recipeId', async (req, res, next) => {
   }
 })
 
+// edit a recipe
+router.put('/:recipeId', requireAuth, validateRecipe, async (req, res, next) => {
+  const { recipeId } = req.params
+  const { title, description, origin, directions } = req.body
+  const userId = req.user.id
+
+  try {
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (!recipe) throw new Error('Recipe couldn\'t be found')
+    if (recipe.userId !== userId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+    
+    const editRecipe = await recipe.update({ 
+      title: title, 
+      description: description, 
+      origin: origin, 
+      directions: directions,
+    })
+    
+    res.json(editRecipe)
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+
+})
+
+// delete a recipe
+router.delete('/:recipeId', requireAuth, async (req, res, next) => {
+  const { recipeId } = req.params
+  const currUserId = req.user.id
+
+  try {
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (!recipe) throw new Error('Recipe could\'t be found')
+    if (recipe.userId !== +currUserId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+
+    await recipe.destroy()
+
+    res.json({ message: 'Successfully deleted'})
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+// creates a recipe
+router.post('/', requireAuth, validateRecipe, async (req, res, next) => {
+  const { title, description, origin, directions } = req.body
+  const userId = req.user.id
+
+  const recipe = await Recipe.create({ userId, title, description, origin, directions })
+
+  res.status(201)
+  res.json(recipe)
+})
+
+// gets all recipes
 router.get('/', async (req, res) => {
   const recipes = await Recipe.findAll({ include: {model: Like} })
 

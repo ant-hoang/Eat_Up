@@ -34,11 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     metric: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
-        isIn: [['', 'tsp', 'Tbsp', 'cup', 'cups', 'pt', 'qt', 'oz', 'fl oz', 'gal', 'lb', 'lbs']]
+        isIn: [[null, 'tsp', 'Tbsp', 'cup', 'cups', 'pt', 'qt', 'oz', 'fl oz', 'gal', 'lb', 'lbs']]
       },
-      defaultValue: ''
     },
     recipeId: {
       type: DataTypes.INTEGER,

@@ -25,7 +25,6 @@ module.exports = {
       },
       metric: {
         type: Sequelize.STRING,
-        allowNull: false,
         defaultValue: ''
       },
       recipeId: {
