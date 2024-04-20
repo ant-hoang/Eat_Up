@@ -1,9 +1,10 @@
 const express = require('express')
 
 const { requireAuth } = require('../../utils/auth')
-const { User, Recipe, Ingredient, Like, sequelize } = require('../../db/models')
+const { User, Recipe, Ingredient, Comment, Like, sequelize } = require('../../db/models')
 
 const { validateRecipe, validateIngredient } = require('../../utils/validators/recipes')
+const { validateComment } = require('../../utils/validators/comments')
 
 const router = express.Router()
 
@@ -24,6 +25,113 @@ router.get('/current', requireAuth, async (req, res) => {
   }
 
   res.json({ "Recipes": recipesJSON })
+})
+
+// edit an existing comment for a specified recipe
+router.put('/:recipeId/comments/:commentId', requireAuth, validateComment, async (req, res, next) => {
+  const { recipeId, commentId } = req.params
+  const { comment } = req.body
+  const currUserId = req.user.id
+
+  try {
+    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
+    if(!checkComment) throw new Error('Comment couldn\'t be found')
+    if (checkComment.userId !== +currUserId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+
+    const recipe = await Recipe.findOne({ where: { id: +recipeId }})
+    if (!recipe) throw new Error('Recipe couldn\'t be found')
+
+    const uComment = checkComment.update({ comment: comment })
+
+    res.json(uComment)
+    
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+// delete an existing comment from a specified recipe
+router.delete('/:recipeId/comments/:commentId', requireAuth, async (req, res, next) => {
+  const { recipeId, commentId } = req.params
+  const currUserId = req.user.id
+
+  try {
+    const comment = await Comment.findByPk(+commentId)
+    if (!comment) throw new Error('Comment couldn\'t be found')
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (recipe.userId !== +currUserId || comment.recipeId !== recipe.id) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+
+    await comment.destroy()
+
+    res.json({ message: 'Successfully deleted' })
+    
+  } catch(err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+// create a comment for a specified recipe
+router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res, next) => {
+  const { recipeId } = req.params
+  const { comment } = req.body
+  const currUserId = req.user.id
+
+  try {
+    const checkComment = await Comment.fineOne({ where: { recipeId: +recipeId, userId: currUserId }})
+
+    if (checkComment) {
+      const err = new Error('User has already commented on this recipe')
+      err.status = 500
+      return next(err)
+    }
+
+    const recipe = await Recipe.findOne({ where: { id: +recipeId }})
+    if (!recipe) throw new Error('Recipe couldn\'t be found')
+
+    const nComment = await Comment.create({ 
+      userId: currUserId,
+      recipeId: +recipeId,
+      comment: comment
+    })
+
+    res.json(nComment)
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+
+})
+
+// get comments specified by a recipe id
+router.get('/:recipeId/comments', async (req, res, next) => {
+  const { recipeId } = req.params
+
+  try {
+    const recipe = await Recipe.findByPk(+recipeId)
+    if (!recipe) throw new Error('Recipe couldn\'t be found')
+
+    const comments = await Comment.findAll({
+      where: { recipeId: +recipeId },
+      include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
+    })
+
+    res.json({ "Comments": comments })
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
 })
 
 // delete an ingredient to a recipe specified by id
@@ -65,7 +173,6 @@ router.post('/:recipeId/ingredients', requireAuth, validateIngredient, async (re
       err.status = 403
       return next(err)
     }
-    console.log("INGREDIENT", {"name": name, "quantity": quantity, "metric": metric})
     const ingredient = await Ingredient.create({ name, quantity, metric, recipeId: +recipeId })
 
     res.status(201)

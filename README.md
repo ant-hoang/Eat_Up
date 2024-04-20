@@ -263,7 +263,9 @@ Return all the recipes.
           "id": 1,
           "user_id": 1,
           "title": "Breakfast Special",
-          "description": "Here are the steps of making this dish",
+          "origin": "American",
+          "description": "This is an original breafkast recipe",
+          "directions": "Here are the steps on how to make this...",
           "created_at": "2021-11-19 20:39:36",
           "updated_at": "2021-11-19 20:39:36",
           "num_likes": 3,
@@ -274,7 +276,9 @@ Return all the recipes.
           "id": 2,
           "user_id": 2,
           "title": "Lunch Special",
+          "origin": "American",
           "description": "Hope you enjoy this recipe",
+          "directions": "Here are the steps on how to make this...",
           "created_at": "2021-11-19 20:39:36",
           "updated_at": "2021-11-19 20:39:36",
           "num_likes": 4,
@@ -308,7 +312,9 @@ Returns all the recipes owned (created) by the current user.
           "id": 1,
           "user_id": 1,
           "title": "Breakfast Special",
-          "description": "Here are the steps of making this dish",
+          "origin": "American",
+          "description": "This is an original breafkast recipe",
+          "directions": "Here are the steps on how to make this...",
           "created_at": "2021-11-19 20:39:36",
           "updated_at": "2021-11-19 20:39:36",
           "num_likes": 3,
@@ -404,8 +410,6 @@ Creates and returns a new recipe.
       "description": "It's a healthy one",
       "origin": "Asian",
       "directions": "1. Prepare broth, 2. Season chicken, 3. Add it together",
-      "video": "new_dish.mpeg",
-      "images": "new_dish.img"
     }
     ```
 
@@ -423,8 +427,6 @@ Creates and returns a new recipe.
       "description": "It's a healthy one",
       "origin": "Asian",
       "directions": "1. Prepare broth, 2. Season chicken, 3. Add it together",
-      "video": "new_dish.mpeg",
-      "images": "new_dish.img",
       "created_at": "2022-12-25 20:39:36",
       "updated_at": "2022-12-25 20:39:36",
     }
@@ -444,7 +446,6 @@ Creates and returns a new recipe.
         "description": "Description is required",
         "origin": "Origin is required",
         "directions": "Directions are required",
-        "images": "One image is required"
       }
     }
     ```
@@ -457,7 +458,7 @@ Create and return a new ingredient for a recipe specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: /recipes/:recipeId/ingredients/new
+  * URL: /recipes/:recipeId/ingredients
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -466,7 +467,7 @@ Create and return a new ingredient for a recipe specified by id.
     {
       "name": "jasmine rice",
       "quantity": 4,
-      "metric": "cups"
+      "metric": "cups",
     }
     ```
 
@@ -481,7 +482,21 @@ Create and return a new ingredient for a recipe specified by id.
       "id": 1,
       "name": "jasmine rice",
       "quantity": 4,
-      "metric": "cups"
+      "metric": "cups",
+      "created_at": "2022-12-25 20:39:36",
+      "updated_at": "2022-12-25 20:39:36",
+    }
+    ```
+
+* Error response: Recipe does not belong to current user
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Forbidden"
     }
     ```
 
@@ -494,6 +509,41 @@ Create and return a new ingredient for a recipe specified by id.
     ```json
     {
       "message": "Recipe couldn't be found"
+    }
+    ```
+
+### Delete an Ingredient from a recipe based on the recipe's id
+
+Deletes an existing ingredient from a recipe.
+
+* Require Authentication: true
+* Require proper authorization: Recipe must belong to the current user
+* Request
+  * Method: DELETE
+  * URL: /recipes/:recipeId/ingredients/:ingredientId
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Successfully deleted"
+    }
+    ```
+
+* Error response: Couldn't find the Ingredient with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Ingredient couldn't be found"
     }
     ```
 
@@ -516,8 +566,6 @@ Updates and returns an existing recipe.
       "description": "It's a less healthy one",
       "origin": "Asian",
       "directions": "1. Prepare broth, 2. Season pork, 3. Add it together",
-      "video": "new_dish.mpeg",
-      "images": "new_dish.img"
     }
     ```
 
@@ -535,8 +583,6 @@ Updates and returns an existing recipe.
       "description": "It's a less healthy one",
       "origin": "Asian",
       "directions": "1. Prepare broth, 2. Season pork, 3. Add it together",
-      "video": "new_dish.mpeg",
-      "images": "new_dish.img",
       "created_at": "2022-12-25 20:39:36",
       "updated_at": "2022-12-29 20:39:36",
     }
@@ -556,7 +602,6 @@ Updates and returns an existing recipe.
         "description": "Description is required",
         "origin": "Origin is required",
         "directions": "Directions are required",
-        "images": "One image is required"
       }
     }
     ```
