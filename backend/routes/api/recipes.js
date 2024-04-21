@@ -35,6 +35,7 @@ router.get('/current', requireAuth, async (req, res) => {
 /* 
 ----------------------------------------RECIPE/LIKES----------------------------------------
 */
+
 router.delete('/:recipeId/likes', requireAuth, async (req, res, next) => {
   const { recipeId } = req.params
   const nullBody = req.body
@@ -92,6 +93,67 @@ router.post('/:recipeId/likes', requireAuth, async (req, res, next) => {
 })
 
 /* 
+----------------------------------------RECIPE/BOOKMARKS----------------------------------------
+*/
+
+router.delete('/:recipeId/bookmarks', requireAuth, async (req, res, next) => {
+  const { recipeId } = req.params
+  const nullBody = req.body
+  const currUserId = req.user.id
+
+  try {
+    const checkRecipe = await Recipe.findOne({ where: { id: +recipeId } })
+    if (!checkRecipe) throw new Error('Recipe couldn\'t be found')
+    const checkBookmark = await Bookmark.findOne({ where: { userId: currUserId, recipeId: +recipeId } })
+    if (!checkBookmark) {
+      const err = new Error('User has not bookmarked this recipe')
+      err.status = 500
+      return next(err)
+    } else if (checkBookmark.userId !== currUserId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
+
+    await checkBookmark.destroy()
+
+    res.json({ message: "Successfully deleted" })
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+
+router.post('/:recipeId/bookmarks', requireAuth, async (req, res, next) => {
+  const { recipeId } = req.params
+  const nullBody = req.body
+  const currUserId = req.user.id
+
+  try {
+    const checkRecipe = await Recipe.findOne({ where: { id: +recipeId } })
+    if (!checkRecipe) throw new Error('Recipe couldn\'t be found')
+
+    const checkBookmark = await Bookmark.findOne({ where: { userId: currUserId, recipeId: +recipeId } })
+    if (checkBookmark) {
+      const err = new Error('User has already bookmarked this recipe')
+      err.status = 500
+      return next(err)
+    }
+
+    const bookmark = await Bookmark.create({ userId: currUserId, recipeId: +recipeId })
+
+    res.json({ message: "Successfully bookmarked" })
+
+  } catch (err) {
+    err.status = 404
+    return next(err)
+  }
+})
+
+
+/* 
 ----------------------------------------RECIPE/COMMENTS------------------------------------------
 */
 
@@ -124,12 +186,12 @@ router.put('/:recipeId/comments/:commentId', requireAuth, validateComment, async
 })
 
 // delete an existing comment from a specified recipe
-router.delete('/:recipeId/comments/:commentId', requireAuth, async (req, res, next) => {
-  const { recipeId, commentId } = req.params
+router.delete('/:recipeId/comments', requireAuth, async (req, res, next) => {
+  const { recipeId } = req.params
   const currUserId = req.user.id
 
   try {
-    const comment = await Comment.findByPk(+commentId)
+    const comment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
     if (!comment) throw new Error('Comment couldn\'t be found')
     const recipe = await Recipe.findByPk(+recipeId)
     if (comment.userId !== +currUserId || comment.recipeId !== recipe.id) {
