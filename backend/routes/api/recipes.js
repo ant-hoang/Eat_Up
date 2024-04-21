@@ -45,7 +45,7 @@ router.put('/:recipeId/comments/:commentId', requireAuth, validateComment, async
     const recipe = await Recipe.findOne({ where: { id: +recipeId }})
     if (!recipe) throw new Error('Recipe couldn\'t be found')
 
-    const uComment = checkComment.update({ comment: comment })
+    const uComment = await checkComment.update({ comment: comment })
 
     res.json(uComment)
     
@@ -64,7 +64,7 @@ router.delete('/:recipeId/comments/:commentId', requireAuth, async (req, res, ne
     const comment = await Comment.findByPk(+commentId)
     if (!comment) throw new Error('Comment couldn\'t be found')
     const recipe = await Recipe.findByPk(+recipeId)
-    if (recipe.userId !== +currUserId || comment.recipeId !== recipe.id) {
+    if (comment.userId !== +currUserId || comment.recipeId !== recipe.id) {
       const err = new Error('Forbidden')
       err.status = 403
       return next(err)
@@ -73,7 +73,7 @@ router.delete('/:recipeId/comments/:commentId', requireAuth, async (req, res, ne
     await comment.destroy()
 
     res.json({ message: 'Successfully deleted' })
-    
+
   } catch(err) {
     err.status = 404
     return next(err)
@@ -87,7 +87,7 @@ router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res
   const currUserId = req.user.id
 
   try {
-    const checkComment = await Comment.fineOne({ where: { recipeId: +recipeId, userId: currUserId }})
+    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
 
     if (checkComment) {
       const err = new Error('User has already commented on this recipe')
@@ -97,6 +97,11 @@ router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res
 
     const recipe = await Recipe.findOne({ where: { id: +recipeId }})
     if (!recipe) throw new Error('Recipe couldn\'t be found')
+    if (recipe.userId === +currUserId) {
+      const err = new Error('Forbidden')
+      err.status = 403
+      return next(err)
+    }
 
     const nComment = await Comment.create({ 
       userId: currUserId,
