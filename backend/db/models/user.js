@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Recipe, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Comment, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Bookmark, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
+      User.hasMany(models.Like, { foreignKey: 'userId', onDelete: 'CASCADE', hooks: true })
     }
   }
   User.init({
@@ -27,6 +31,19 @@ module.exports = (sequelize, DataTypes) => {
           if (Validator.isEmail(value)) {
             throw new Error("Cannot be an email.")
           }
+        },
+        mustContainLetter(value) {
+          const alpha = 'abcdefghijklmnopqrstuvwxyz'
+          let hasAlpha = false
+          for (let i = 0; i < value.length; i++) {
+            if (alpha.includes(value[i].toLowerCase())) {
+              hasAlpha = true
+            }
+          }
+
+          if (!hasAlpha) {
+            throw new Error('Username must contain a letter')
+          }
         }
       }
     },
@@ -36,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         len: [3, 256],
-        isEmail: true
+        isEmail: true,
+        notEmpty: true
       }
     },
     hashedPassword: {
@@ -48,11 +66,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isAlpha: true,
+        notContains: ' '
+      }
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isAlpha: true,
+        notContains: ' '
+      }
     }
   }, {
     sequelize,

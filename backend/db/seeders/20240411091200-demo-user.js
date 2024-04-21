@@ -18,7 +18,7 @@ module.exports = {
         username: 'Demo-lition',
         hashedPassword: bcrypt.hashSync('password'),
         firstName: 'Demo',
-        lastName: 'Lition'
+        lastName: 'Lition',
       },
       {
         email: 'user1@user.io',
@@ -32,7 +32,7 @@ module.exports = {
         username: 'FakeUser2',
         hashedPassword: bcrypt.hashSync('password3'),
         firstName: 'Faker',
-        lastName: 'Non-user'
+        lastName: 'User'
       },
     ], { validate: true })
   },
