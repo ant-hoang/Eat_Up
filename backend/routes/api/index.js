@@ -19,8 +19,4 @@ router.use('/recipes', recipesRouter)
 router.use('/comments', commentsRouter)
 router.use('/bookmarks', bookmarksRouter)
 
-router.post('/test', function (req, res) {
-  res.json({ requestBody: req.body });
-});
-
 module.exports = router;
