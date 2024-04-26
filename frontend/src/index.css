@@ -1,1 +1,9 @@
 /* TODO: Add sitewide styles */
+body {
+  background-color: rgb(238, 238, 175);
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+.error {
+  color: red
+}

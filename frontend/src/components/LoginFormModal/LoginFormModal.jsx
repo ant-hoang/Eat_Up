@@ -49,7 +49,7 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className='error'>{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
       </form>

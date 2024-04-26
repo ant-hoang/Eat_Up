@@ -1,3 +1,64 @@
 .hidden {
   display: none
 }
+
+#nav-profile {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+#nav-bar {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: auto 9fr auto;
+}
+
+#nav-bar-logged {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: auto 9fr 3fr;
+}
+
+/* #nav-container {
+  display: grid;
+  flex-direction: column;
+} */
+
+#nav-home-text {
+  font-size: 40px;
+  padding-left: 80px;
+}
+
+#nav-home-icon {
+  font-size: 50px;
+  position: relative;
+}
+
+#nav-no-session {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  padding-right: 100px
+}
+
+#nav-demo {
+  padding-right: 10px;
+}
+
+#nav-demo > button {
+  background-color: rgb(0, 255, 34);
+  border-radius: 10px;
+}
+
+#nav-demo > button:hover {
+  cursor: pointer;
+}
+
+#nav-log-in {
+  padding-right: 10px;
+}
+
+#nav-log-in-button:hover {
+  cursor: pointer;
+}

@@ -1,0 +1,58 @@
+#recipe-container {
+  display: block;
+  position: relative;
+  top: 80px;
+  left: 400px;
+}
+
+#recipe-block {
+  height: 300px;
+}
+
+#recipe-image {
+  height: 200px;
+  width: 300px;
+  border-radius: 18px;
+}
+
+#recipe-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  bottom: 253px;
+  left: 325px;
+  margin-top: 50px;
+  width: 675px;
+}
+
+#recipe-box > h2 {
+  width: 675px;
+}
+
+#recipe-box > p {
+  width: 675px;
+}
+
+#recipe-link {
+  height: 200px;
+  width: 1000px;
+}
+
+#recipe-link:hover {
+  cursor: pointer;
+}
+
+#recipe-like {
+  display: flex;
+  flex-direction: row;
+  width: 675px;
+}
+
+#recipe-num-like {
+  padding-right: 2px;
+}
+
+#recipe-like-icon {
+  position: relative;
+  padding-top: 1.5px;
+}

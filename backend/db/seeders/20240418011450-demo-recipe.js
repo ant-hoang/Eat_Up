@@ -19,7 +19,7 @@ module.exports = {
         description: 'The All American favorite morning cuisine',
         directions: 'Step 1. Prepare the eggs, Step 2. Cook bacon in frying pan, Step 3. Cook eggs in frying pan after bacon is done',
         video: '',
-        images: '',
+        images: 'https://static.toiimg.com/thumb/75681091.cms?width=573&height=430',
       },
       {
         userId: 1,
@@ -28,7 +28,7 @@ module.exports = {
         description: 'A delicious japanese home-cooked meal',
         directions: 'Finely chop the onions, mince the garlic, add oil into hot frying pan, add onions and garlic to the pan, add the seasoned pork into pan, add curry mix and slow cook til complete',
         video: '',
-        images: '',
+        images: 'https://www.unclejerryskitchen.com/wp-content/uploads/2016/08/Curry-Rice-720x720.jpg',
       },
       {
         userId: 2,
@@ -37,7 +37,7 @@ module.exports = {
         description: 'An original recipe inspired from the East',
         directions: 'Forgot how to make this',
         video: '',
-        images: '',
+        images: 'https://www.allrecipes.com/thmb/xvlRRhK5ldXuGcXad8XDM5tTAfE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/223382_chicken-stir-fry_Rita-1x1-1-b6b835ccfc714bb6a8391a7c47a06a84.jpg',
       },
       {
         userId: 3,
@@ -46,7 +46,7 @@ module.exports = {
         description: 'An easy recipe that anyone can make',
         directions: 'Boil noodles for 10 min, season ground meat with garlic salt, cook ground meat in saucepan til it\'s browned, then add pasta sauce and noodles when done.',
         video: '',
-        images: '',
+        images: 'https://www.slimmingeats.com/blog/wp-content/uploads/2013/02/spaghetti-meatballs-7-1-735x735.jpg',
       },
     ], { validate: true })
   },
