@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllRecipesThunk } from '../../store/recipe'
 import { MdOutlineThumbUpOffAlt } from "react-icons/md";
 
-function HomePage({ isLoaded }) {
+function HomePage() {
   const dispatch = useDispatch()
   const recipes = useSelector((state) => state.recipes.allRecipes);
-
-
 
   useEffect(() => {
     const getData = async () => {
