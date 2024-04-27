@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
+import RecipeDetails from './components/RecipeDetails';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <HomePage />
+      },
+      {
+        path: '/recipes/:recipeId',
+        element: <RecipeDetails />
       }
     ]
   }

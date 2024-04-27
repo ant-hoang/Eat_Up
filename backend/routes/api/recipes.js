@@ -158,8 +158,8 @@ router.post('/:recipeId/bookmarks', requireAuth, async (req, res, next) => {
 */
 
 // edit an existing comment for a specified recipe
-router.put('/:recipeId/comments/:commentId', requireAuth, validateComment, async (req, res, next) => {
-  const { recipeId, commentId } = req.params
+router.put('/:recipeId/comments', requireAuth, validateComment, async (req, res, next) => {
+  const { recipeId } = req.params
   const { comment } = req.body
   const currUserId = req.user.id
 
@@ -258,7 +258,7 @@ router.get('/:recipeId/comments', async (req, res, next) => {
 
     const comments = await Comment.findAll({
       where: { recipeId: +recipeId },
-      include: { model: User, attributes: ['id', 'firstName', 'lastName'] }
+      include: { model: User, attributes: ['id', 'username'] }
     })
 
     res.json({ "Comments": comments })

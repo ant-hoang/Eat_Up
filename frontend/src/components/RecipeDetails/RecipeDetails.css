@@ -1,0 +1,40 @@
+#recipe-title {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+#recipe-description {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+#media-player {
+  display: flex;
+  justify-content: center;
+}
+
+#recipe-user-likes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#recipe-user-info {
+  position: absolute;
+  left: 360px
+}
+
+#recipe-detail-like {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  left: 386px;
+}
+
+#recipe-ingredients {
+  position: relative;
+  left: 350px;
+}

@@ -12,12 +12,14 @@
   list-style-type: none;
   display: grid;
   grid-template-columns: auto 9fr auto;
+  height: 70px;
 }
 
 #nav-bar-logged {
   list-style-type: none;
   display: grid;
   grid-template-columns: auto 9fr 3fr;
+  height: 70px;
 }
 
 /* #nav-container {
