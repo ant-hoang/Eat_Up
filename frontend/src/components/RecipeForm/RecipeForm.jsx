@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { postRecipeThunk } from '../../store/recipe';
 import './RecipeForm.css'
 
 function RecipeForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [origin, setOrigin] = useState('')
@@ -17,7 +19,7 @@ function RecipeForm() {
   const [showImage, setShowImage] = useState(true)
   const [previewImage, setPreviewImage] = useState('')
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState([])
 
   const updateVideo = async (e) => {
     const file = e.target.files[0];
@@ -41,25 +43,93 @@ function RecipeForm() {
     setShowImage(false);
   };
 
+  const checkErrors = (title, description, origin, directions) => {
+    const errorList = []
+    if (!title) errorList.push('Title is required')
+    if (!description) errorList.push('Description is required')
+    if (!origin) errorList.push('Origin is required')
+    if (!directions) errorList.push('Directions is required')
+
+    return errorList
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    setErrors([])
+    const errorList = checkErrors(title, description, origin, directions)
+    setErrors(errorList)
+    console.log("ERRORS: ", errors)
+    if (errorList.length) return
+
     const payload = {
-      title: title, 
-      description: description, 
-      origin: origin, 
-      directions: directions, 
-      video: video, 
+      title: title,
+      description: description,
+      origin: origin,
+      directions: directions,
+      video: video,
       image: image
     }
 
-    const postRecipe = await dispatch(postRecipeThunk(payload))
+    setTitle('')
+    setDescription('')
+    setOrigin('')
+    setDirections('')
+    setVideo('')
+    setShowVideo(true)
+    setPreviewVideo('')
+    setImage('')
+    setShowImage(true)
+    setPreviewImage('')
+
+    return await dispatch(postRecipeThunk(payload))
+      .then(() => {
+        setTitle('')
+        setDescription('')
+        setOrigin('')
+        setDirections('')
+        setVideo('')
+        setShowVideo(true)
+        setPreviewVideo('')
+        setImage('')
+        setShowImage(true)
+        setPreviewImage('')
+        navigate('/')
+      })
+      .catch((data) => {
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      })
+
+    if (res.ok) {
+      setTitle('')
+      setDescription('')
+      setOrigin('')
+      setDirections('')
+      setVideo('')
+      setShowVideo(true)
+      setPreviewVideo('')
+      setImage('')
+      setShowImage(true)
+      setPreviewImage('')
+    }
   }
 
   return (
     <>
       <h1>Add your new Recipe!</h1>
-      <form onSubmit={handleSubmit}>
+      {errors.length > 0 ? errors.map((error) => {
+        return (
+          <>
+          <ul className='error'>
+            <li>{error}</li>
+          </ul>
+          </>
+        )
+      }): ''}
 
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="new-recipe-title">What's the name of your recipe?
             <input
@@ -126,10 +196,10 @@ function RecipeForm() {
           )}
           {!showVideo && (
             <div>
-              <video 
-              src={previewVideo} width="500" height="200"
-              alt='preview-video'
-              controls
+              <video
+                src={previewVideo} width="500" height="200"
+                alt='preview-video'
+                controls
               />
             </div>
           )}
@@ -149,9 +219,9 @@ function RecipeForm() {
           )}
           {!showImage && (
             <div>
-              <img 
-              src={previewImage} width="500" height="200"
-              alt='preview-image'
+              <img
+                src={previewImage} width="500" height="200"
+                alt='preview-image'
               />
             </div>
           )}

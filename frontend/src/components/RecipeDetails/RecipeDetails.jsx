@@ -8,10 +8,7 @@ import OpenModalButton from '../OpenModalButton'
 import CommentFormModal from '../CommentFormModal/CommentFormModal'
 import EditCommentModal from '../EditCommentModal/EditCommentModal'
 import DeleteCommentModal from '../DeleteCommentModal/DeleteCommentModal'
-import LoginFormModal from '../LoginFormModal'
 
-
-import video from '../../videos/Pedro_Pascal_meme.mp4'
 import './RecipeDetails.css'
 
 
@@ -29,6 +26,10 @@ function RecipeDetails() {
   let findComment = false
   if (user) findComment = !comments.find((comment) => comment.userId === user.id)
 
+  const handleDelete = (e) => {
+    e.preventDefault()
+    navigate(`/recipes/${recipeId}/delete`)
+  }
   useEffect(() => {
     const getData = async () => {
       await dispatch(getOneRecipeThunk(recipeId))
@@ -51,7 +52,7 @@ function RecipeDetails() {
               <div>
                 <h3>Welcome back owner</h3>
                 <button>Edit Recipe</button>
-                <button>Delete Recipe</button>
+                <button onClick={handleDelete}>Delete Recipe</button>
               </div>
             </div> : ''}
           <h1 className='recipe-title' id='recipe-title'>{recipe.title}</h1>

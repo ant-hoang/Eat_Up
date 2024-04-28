@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { postNewCommentThunk } from '../../store/comment';
 import { updateCommentThunk } from '../../store/comment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/Modal';

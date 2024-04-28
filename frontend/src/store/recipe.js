@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 const GET_RECIPES = '/recipes/getRecipes'
 const GET_RECIPE = 'recipes/getRecipe'
 const POST_RECIPE = 'recipes/postRecipe'
+const DELETE_RECIPE = 'recipes/deleteRecipe'
 
 const getRecipes = (recipes) => {
   return {
@@ -21,6 +22,11 @@ const getRecipe = (recipe) => {
 const postRecipe = (recipe) => ({
   type: POST_RECIPE,
   payload: recipe
+})
+
+const deleteRecipe = (id) => ({
+  type: DELETE_RECIPE,
+  payload: id
 })
 
 export const getAllRecipesThunk = () => async (dispatch) => {
@@ -85,6 +91,27 @@ export const postRecipeThunk = (payload) => async (dispatch) => {
   }
 }
 
+export const deleteRecipeThunk = (recipeId) => async (dispatch) => {
+  try {
+    const options = {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'}
+    }
+
+    const res = await csrfFetch(`/api/recipes/${recipeId}`, options)
+
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(deleteRecipe(recipeId))
+    } else {
+      throw res
+    }
+  } catch (err) {
+    const data = await err.json()
+    return data
+  }
+}
+
 
 
 // Reducer
@@ -110,6 +137,18 @@ function recipeReducer(state = initialState, action) {
       const newRecipe = action.payload
       newState.allRecipes = [...newState.allRecipes, newRecipe]
       newState.byId[newRecipe.id] = newRecipe
+      return newState
+    case DELETE_RECIPE:
+      const newById = {...newState.byId};
+      delete newById[action.payload];
+      newState.byId = newById
+
+      const newAllRecipes = newState.allRecipes.filter((recipe) => {
+        return recipe.id !== action.payload
+      })
+
+      newState.allRecipes = newAllRecipes
+      
       return newState
     default:
       return state;

@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeForm from './components/RecipeForm/RecipeForm';
+import DeleteRecipeModal from './components/DeleteRecipeModal';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
         path: '/recipes/new',
         element: <RecipeForm />
       },
+      {
+        path: 'recipes/:recipeId/delete',
+        element: <DeleteRecipeModal />
+      }
     ]
   }
 ]);

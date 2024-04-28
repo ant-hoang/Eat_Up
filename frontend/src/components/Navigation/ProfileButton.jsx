@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import './ProfileButton.css'
 
@@ -15,18 +14,12 @@ function ProfileButton({ user }) {
     dispatch(sessionActions.logout());
   };
 
-  // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-
   const handleAddRecipe = (e) => {
     navigate('/recipes/new')
   }
 
   return (
     <>
-      {/* <button onClick={() => setShowMenu(!showMenu)}>
-        <FaUserCircle />
-      </button> */}
-      {/* <ul className={ulClassName}> */}
       <ul className="profile-dropdown">
         <li>Hello, {user.username}!</li>
         <li>

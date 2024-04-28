@@ -5,9 +5,8 @@ const { User, Recipe, Ingredient, Comment, Bookmark, Like, sequelize } = require
 
 const { validateRecipe, validateIngredient } = require('../../utils/validators/recipes')
 const { validateComment } = require('../../utils/validators/comments')
-const { check } = require('express-validator')
 
-const { singleMulterUpload, multipleMulterUpload, multiplePublicFileUpload } = require('../../awsS3')
+const { singleMulterUpload, multipleMulterUpload, singlePublicFileUpload, multiplePublicFileUpload } = require('../../awsS3')
 
 const router = express.Router()
 
@@ -18,7 +17,7 @@ const router = express.Router()
 // gets recipes based on current logged user
 router.get('/current', requireAuth, async (req, res) => {
   const user_id = req.user.id
-  const recipes = await Recipe.findAll({ 
+  const recipes = await Recipe.findAll({
     where: { userId: user_id },
     include: { model: Like }
   })
@@ -44,9 +43,9 @@ router.delete('/:recipeId/likes', requireAuth, async (req, res, next) => {
   const currUserId = req.user.id
 
   try {
-    const checkRecipe = await Recipe.findOne( { where: { id: +recipeId }})
+    const checkRecipe = await Recipe.findOne({ where: { id: +recipeId } })
     if (!checkRecipe) throw new Error('Recipe couldn\'t be found')
-    const checkLike = await Like.findOne({ where: { userId: currUserId, recipeId: +recipeId }})
+    const checkLike = await Like.findOne({ where: { userId: currUserId, recipeId: +recipeId } })
     if (!checkLike) {
       const err = new Error('User has not liked this recipe')
       err.status = 500
@@ -74,16 +73,16 @@ router.post('/:recipeId/likes', requireAuth, async (req, res, next) => {
   const currUserId = req.user.id
 
   try {
-    const checkRecipe = await Recipe.findOne( { where: { id: +recipeId }})
+    const checkRecipe = await Recipe.findOne({ where: { id: +recipeId } })
     if (!checkRecipe) throw new Error('Recipe couldn\'t be found')
 
-    const checkLike = await Like.findOne({ where: { userId: currUserId, recipeId: +recipeId }})
+    const checkLike = await Like.findOne({ where: { userId: currUserId, recipeId: +recipeId } })
     if (checkLike) {
       const err = new Error('User has already liked this recipe')
       err.status = 500
       return next(err)
     }
-    
+
     const like = await Like.create({ userId: currUserId, recipeId: +recipeId })
 
     res.json({ message: "Successfully liked" })
@@ -166,21 +165,21 @@ router.put('/:recipeId/comments', requireAuth, validateComment, async (req, res,
   const currUserId = req.user.id
 
   try {
-    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
-    if(!checkComment) throw new Error('Comment couldn\'t be found')
+    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId } })
+    if (!checkComment) throw new Error('Comment couldn\'t be found')
     if (checkComment.userId !== +currUserId) {
       const err = new Error('Forbidden')
       err.status = 403
       return next(err)
     }
 
-    const recipe = await Recipe.findOne({ where: { id: +recipeId }})
+    const recipe = await Recipe.findOne({ where: { id: +recipeId } })
     if (!recipe) throw new Error('Recipe couldn\'t be found')
 
     const uComment = await checkComment.update({ comment: comment })
 
     res.json(uComment)
-    
+
   } catch (err) {
     err.status = 404
     return next(err)
@@ -193,7 +192,7 @@ router.delete('/:recipeId/comments', requireAuth, async (req, res, next) => {
   const currUserId = req.user.id
 
   try {
-    const comment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
+    const comment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId } })
     if (!comment) throw new Error('Comment couldn\'t be found')
     const recipe = await Recipe.findByPk(+recipeId)
     if (comment.userId !== +currUserId || comment.recipeId !== recipe.id) {
@@ -206,7 +205,7 @@ router.delete('/:recipeId/comments', requireAuth, async (req, res, next) => {
 
     res.json({ message: 'Successfully deleted' })
 
-  } catch(err) {
+  } catch (err) {
     err.status = 404
     return next(err)
   }
@@ -219,7 +218,7 @@ router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res
   const currUserId = req.user.id
 
   try {
-    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId }})
+    const checkComment = await Comment.findOne({ where: { recipeId: +recipeId, userId: currUserId } })
 
     if (checkComment) {
       const err = new Error('User has already commented on this recipe')
@@ -227,7 +226,7 @@ router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res
       return next(err)
     }
 
-    const recipe = await Recipe.findOne({ where: { id: +recipeId }})
+    const recipe = await Recipe.findOne({ where: { id: +recipeId } })
     if (!recipe) throw new Error('Recipe couldn\'t be found')
     if (recipe.userId === +currUserId) {
       const err = new Error('Forbidden')
@@ -235,7 +234,7 @@ router.post('/:recipeId/comments', requireAuth, validateComment, async (req, res
       return next(err)
     }
 
-    const nComment = await Comment.create({ 
+    const nComment = await Comment.create({
       userId: currUserId,
       recipeId: +recipeId,
       comment: comment
@@ -369,14 +368,14 @@ router.put('/:recipeId', requireAuth, validateRecipe, async (req, res, next) => 
       err.status = 403
       return next(err)
     }
-    
-    const editRecipe = await recipe.update({ 
-      title: title, 
-      description: description, 
-      origin: origin, 
+
+    const editRecipe = await recipe.update({
+      title: title,
+      description: description,
+      origin: origin,
       directions: directions,
     })
-    
+
     res.json(editRecipe)
   } catch (err) {
     err.status = 404
@@ -401,7 +400,7 @@ router.delete('/:recipeId', requireAuth, async (req, res, next) => {
 
     await recipe.destroy()
 
-    res.json({ message: 'Successfully deleted'})
+    res.json({ message: 'Successfully deleted' })
 
   } catch (err) {
     err.status = 404
@@ -413,27 +412,32 @@ router.delete('/:recipeId', requireAuth, async (req, res, next) => {
 router.post('/', requireAuth, multipleMulterUpload('files'), validateRecipe, async (req, res, next) => {
   const { title, description, origin, directions } = req.body
   const userId = req.user.id
-  console.log("REQ_BODY", req.body)
 
-  console.log("REQ_FILES: ", req.files[0].mimetype.startsWith('image'))
+  const recipe = await Recipe.create({ userId, title, description, origin, directions })
 
-  // const recipe = await Recipe.create({ userId, title, description, origin, directions })
-
-  if (req.files.length) {
-    files = await multiplePublicFileUpload(req.files)
+  for (let file of req.files) {
+    let nFile
+    if (file.mimetype.startsWith('video')) {
+      nFile = await singlePublicFileUpload(file)
+      recipe.video = nFile
+    }
+    if (file.mimetype.startsWith('image')) {
+      nFile = await singlePublicFileUpload(file)
+      recipe.images = nFile
+    }
   }
 
-  console.log("FILES: ", files)
+  recipe.save()
 
+  console.log(recipe.toJSON())
 
-  // res.status(201)
-  // res.json(recipe)
-  return 'Success'
+  res.status(201)
+  res.json(recipe)
 })
 
 // gets all recipes
 router.get('/', async (req, res) => {
-  const recipes = await Recipe.findAll({ include: {model: Like} })
+  const recipes = await Recipe.findAll({ include: { model: Like } })
 
   let recipesJSON = []
   for (const recipe of recipes) {
