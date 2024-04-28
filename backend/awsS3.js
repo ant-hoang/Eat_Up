@@ -7,6 +7,10 @@ const multer = require("multer");
 //  AWS_ACCESS_KEY_ID
 //  AWS_SECRET_ACCESS_KEY
 //  and aws will automatically use those environment variables
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
 
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
 
