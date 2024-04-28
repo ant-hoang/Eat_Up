@@ -355,7 +355,7 @@ router.get('/:recipeId', async (req, res, next) => {
 })
 
 // edit a recipe
-router.put('/:recipeId', requireAuth, validateRecipe, async (req, res, next) => {
+router.put('/:recipeId', requireAuth, multipleMulterUpload('files'), validateRecipe, async (req, res, next) => {
   const { recipeId } = req.params
   const { title, description, origin, directions } = req.body
   const userId = req.user.id
@@ -375,6 +375,20 @@ router.put('/:recipeId', requireAuth, validateRecipe, async (req, res, next) => 
       origin: origin,
       directions: directions,
     })
+
+    for (let file of req.files) {
+      let nFile
+      if (file.mimetype.startsWith('video')) {
+        nFile = await singlePublicFileUpload(file)
+        editRecipe.video = nFile
+      }
+      if (file.mimetype.startsWith('image')) {
+        nFile = await singlePublicFileUpload(file)
+        editRecipe.images = nFile
+      }
+    }
+
+    editRecipe.save()
 
     res.json(editRecipe)
   } catch (err) {
@@ -428,8 +442,6 @@ router.post('/', requireAuth, multipleMulterUpload('files'), validateRecipe, asy
   }
 
   recipe.save()
-
-  console.log(recipe.toJSON())
 
   res.status(201)
   res.json(recipe)

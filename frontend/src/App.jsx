@@ -6,6 +6,7 @@ import HomePage from './components/HomePage';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeForm from './components/RecipeForm/RecipeForm';
 import DeleteRecipeModal from './components/DeleteRecipeModal';
+import UpdateRecipeForm from './components/UpdateRecipeForm';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: 'recipes/:recipeId/delete',
         element: <DeleteRecipeModal />
+      },
+      {
+        path: 'recipes/:recipeId/update',
+        element: <UpdateRecipeForm />
       }
     ]
   }

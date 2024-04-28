@@ -29,6 +29,12 @@ function RecipeDetails() {
     e.preventDefault()
     navigate(`/recipes/${recipeId}/delete`)
   }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    navigate(`/recipes/${recipeId}/update`)
+  }
+
   useEffect(() => {
     const getData = async () => {
       await dispatch(getOneRecipeThunk(recipeId))
@@ -46,7 +52,7 @@ function RecipeDetails() {
             <div className='recipe-title' id='recipe-title'>
               <div>
                 <h3>Welcome back owner</h3>
-                <button>Edit Recipe</button>
+                <button onClick={handleUpdate}>Edit Recipe</button>
                 <button onClick={handleDelete}>Delete Recipe</button>
               </div>
             </div> : ''}
@@ -70,12 +76,12 @@ function RecipeDetails() {
           </div>
 
           <div className='recipe-ingredients' id='recipe-ingredients'>
-            {user && user.id === recipe.userId ? <button>Add an ingredient</button> : ''}
+            {user && user.id === recipe.userId ? <button onClick={() => alert('Functionality to be added in a later update')}>Add an ingredient</button> : ''}
             <h3>Ingredients:</h3>
             {recipe.Ingredients && recipe.Ingredients.map((ingredient) => {
               return (<ul key={ingredient.id}>
                 <li>
-                  {ingredient.quantity} {ingredient.metric} - {ingredient.name} {user && user.id === recipe.userId ? <button>Delete</button> : ''}
+                  {ingredient.quantity} {ingredient.metric} - {ingredient.name} {user && user.id === recipe.userId ? <button onClick={() => alert('Functionality to be added in a later update')}>Delete</button> : ''}
                 </li>
               </ul>)
             })}

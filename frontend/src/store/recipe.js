@@ -4,6 +4,7 @@ const GET_RECIPES = '/recipes/getRecipes'
 const GET_RECIPE = 'recipes/getRecipe'
 const POST_RECIPE = 'recipes/postRecipe'
 const DELETE_RECIPE = 'recipes/deleteRecipe'
+const UPDATE_RECIPE = 'recipes/updateRecipe'
 
 const getRecipes = (recipes) => {
   return {
@@ -28,6 +29,11 @@ const deleteRecipe = (id, dataObj) => ({
   type: DELETE_RECIPE,
   payload: id,
   data: dataObj
+})
+
+const updateRecipe = (recipe) => ({
+  type: UPDATE_RECIPE,
+  payload: recipe
 })
 
 export const getAllRecipesThunk = () => async (dispatch) => {
@@ -61,7 +67,7 @@ export const getOneRecipeThunk = (recipeId) => async (dispatch) => {
 }
 
 export const postRecipeThunk = (payload) => async (dispatch) => {
-  const {title, description, origin, directions, video, image} = payload
+  const { title, description, origin, directions, video, image } = payload
   try {
     const formData = new FormData();
 
@@ -96,7 +102,7 @@ export const deleteRecipeThunk = (recipeId) => async (dispatch) => {
   try {
     const options = {
       method: 'DELETE',
-      headers: {'Content-Type': 'application/json'}
+      headers: { 'Content-Type': 'application/json' }
     }
 
     const res = await csrfFetch(`/api/recipes/${recipeId}`, options)
@@ -113,51 +119,98 @@ export const deleteRecipeThunk = (recipeId) => async (dispatch) => {
   }
 }
 
+export const updateRecipeThunk = (payload, recipeId) => async (dispatch) => {
+  const { title, description, origin, directions, video, image } = payload
+  try {
+    const formData = new FormData();
+
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('origin', origin)
+    formData.append('directions', directions)
+    formData.append('files', video)
+    formData.append('files', image)
+
+    const option = {
+      method: "PUT",
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: formData
+    }
+
+    const res = await csrfFetch(`/api/recipes/${recipeId}`, option)
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(updateRecipe(data))
+      return data
+    } else {
+      throw res
+    }
+  } catch (err) {
+    const data = await err.json()
+    return data
+  }
+}
 
 
 // Reducer
 const initialState = { byId: {}, allRecipes: [] }
 
-function recipeReducer(state = initialState, action) {
-  let newState = {...state}
-  switch(action.type) {
-    case GET_RECIPES: {
-      newState.allRecipes = action.payload;
+  function recipeReducer(state = initialState, action) {
+    let newState = { ...state }
+    switch (action.type) {
+      case GET_RECIPES: {
+        newState.allRecipes = action.payload;
 
-      for (let i = 0; i < action.payload.length; i++) {
-        let recipe = action.payload[i];
-        newState.byId[recipe.id] = recipe
+        for (let i = 0; i < action.payload.length; i++) {
+          let recipe = action.payload[i];
+          newState.byId[recipe.id] = recipe
+        }
+        return newState
       }
-      return newState
-    }
-    case GET_RECIPE: {
-      const recipe = action.payload
-      newState.allRecipes = [recipe]
-      newState.byId[recipe.id] = recipe
-      return newState
-    }
-    case POST_RECIPE: {
-      const newRecipe = action.payload
-      newState.allRecipes = [...newState.allRecipes, newRecipe]
-      newState.byId[newRecipe.id] = newRecipe
-      return newState
-    }
-    case DELETE_RECIPE: {
-      const newById = {...newState.byId};
-      delete newById[action.payload];
-      newState.byId = newById
+      case GET_RECIPE: {
+        const recipe = action.payload
+        newState.allRecipes = [recipe]
+        newState.byId[recipe.id] = recipe
+        return newState
+      }
+      case POST_RECIPE: {
+        const newRecipe = action.payload
+        newState.allRecipes = [...newState.allRecipes, newRecipe]
+        newState.byId[newRecipe.id] = newRecipe
+        return newState
+      }
+      case DELETE_RECIPE: {
+        const newById = { ...newState.byId };
+        delete newById[action.payload];
+        newState.byId = newById
 
-      const newAllRecipes = newState.allRecipes.filter((recipe) => {
-        return recipe.id !== action.payload
-      })
+        const newAllRecipes = newState.allRecipes.filter((recipe) => {
+          return recipe.id !== action.payload
+        })
 
-      newState.allRecipes = newAllRecipes
-      
-      return newState
+        newState.allRecipes = newAllRecipes
+
+        return newState
+      }
+      case UPDATE_RECIPE: {
+        const newArr = [...newState.allRecipes]
+        const newUpdatedId = { ...newState.byId };
+        for (let i = 0; i < newArr.length; i++) {
+          let currRecipe = newArr[i];
+          if (currRecipe.id === action.payload.id) {
+            newArr[i] = action.payload;
+            break;
+          }
+        }
+        newState.allRecipes = newArr;
+
+        newUpdatedId[action.payload.id] = action.payload;
+        newState.byId = newUpdatedId
+        return newState
+      }
+      default:
+        return state;
     }
-    default:
-      return state;
   }
-}
 
-export default recipeReducer
+  export default recipeReducer
