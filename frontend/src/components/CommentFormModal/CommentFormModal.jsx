@@ -11,7 +11,6 @@ function CommentFormModal({recipeId}) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const user = useSelector((state) => state.session.user)
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});

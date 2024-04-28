@@ -37,7 +37,7 @@ function RecipeDetails() {
         .then(() => { setIsLoaded(true) })
     }
     getData()
-  }, [])
+  }, [recipeId, dispatch])
 
   console.log("USER: ", user)
   console.log("RECIPE: ", recipe)

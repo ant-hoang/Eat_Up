@@ -1,7 +1,7 @@
 // frontend/src/components/LoginFormModal/LoginFormModal.jsx
 
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { deleteCommentThunk } from '../../store/comment';
 import './DeleteComment.css'

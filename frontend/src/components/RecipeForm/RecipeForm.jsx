@@ -101,19 +101,6 @@ function RecipeForm() {
           setErrors(data.errors);
         }
       })
-
-    if (res.ok) {
-      setTitle('')
-      setDescription('')
-      setOrigin('')
-      setDirections('')
-      setVideo('')
-      setShowVideo(true)
-      setPreviewVideo('')
-      setImage('')
-      setShowImage(true)
-      setPreviewImage('')
-    }
   }
 
   return (
@@ -122,16 +109,16 @@ function RecipeForm() {
       {errors.length > 0 ? errors.map((error) => {
         return (
           <>
-          <ul className='error'>
-            <li>{error}</li>
-          </ul>
+            <ul className='error'>
+              <li>{error}</li>
+            </ul>
           </>
         )
-      }): ''}
+      }) : ''}
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="new-recipe-title">What's the name of your recipe?
+          <label htmlFor="new-recipe-title">What is the name of your recipe?
             <input
               className='new-recipe-title'
               id='new-recipe-title'
