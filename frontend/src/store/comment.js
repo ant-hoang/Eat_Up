@@ -116,7 +116,7 @@ const initialState = { byId: {}, allComments: [] }
 function commentReducer(state = initialState, action) {
   let newState = { ...state }
   switch (action.type) {
-    case GET_COMMENTS:
+    case GET_COMMENTS: {
       newState.allComments = action.payload;
 
       for (let i = 0; i < action.payload.length; i++) {
@@ -124,12 +124,14 @@ function commentReducer(state = initialState, action) {
         newState.byId[comment.id] = comment
       }
       return newState
-    case POST_COMMENTS:
-      const newComment = action.payload
+    }
+    case POST_COMMENTS: {
+      let newComment = action.payload
       newState.allComments = [...newState.allComments, newComment]
       newState.byId[newComment.id] = newComment
       return newState;
-    case DELETE_COMMENT:
+    }
+    case DELETE_COMMENT: {
       const newById = {...newState.byId};
       delete newById[action.payload]
       newState.byId = newById
@@ -140,7 +142,8 @@ function commentReducer(state = initialState, action) {
 
       newState.allComments = newAllComments
       return newState
-    case UPDATE_COMMENT:
+    }
+    case UPDATE_COMMENT: {
       const newArr = [...newState.allComments]
       const newUpdatedId = {...newState.byId};
       for (let i =0; i < newArr.length; i++) {
@@ -154,6 +157,8 @@ function commentReducer(state = initialState, action) {
 
       newUpdatedId[action.payload.id] = action.payload;
       newState.byId = newUpdatedId
+      return newState
+    }
     default:
       return state;
   }

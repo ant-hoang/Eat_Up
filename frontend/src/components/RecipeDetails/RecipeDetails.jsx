@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getOneRecipeThunk } from '../../store/recipe'
@@ -16,7 +16,6 @@ function RecipeDetails() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isLoaded, setIsLoaded] = useState(false)
-  const [error, setError] = useState({})
 
   const { recipeId } = useParams()
   const user = useSelector((state) => state.session.user)
@@ -38,10 +37,6 @@ function RecipeDetails() {
     }
     getData()
   }, [recipeId, dispatch])
-
-  console.log("USER: ", user)
-  console.log("RECIPE: ", recipe)
-  console.log("COMMENTS: ", comments)
 
   return (
     <>
@@ -78,7 +73,7 @@ function RecipeDetails() {
             {user && user.id === recipe.userId ? <button>Add an ingredient</button> : ''}
             <h3>Ingredients:</h3>
             {recipe.Ingredients && recipe.Ingredients.map((ingredient) => {
-              return (<ul>
+              return (<ul key={ingredient.id}>
                 <li>
                   {ingredient.quantity} {ingredient.metric} - {ingredient.name} {user && user.id === recipe.userId ? <button>Delete</button> : ''}
                 </li>

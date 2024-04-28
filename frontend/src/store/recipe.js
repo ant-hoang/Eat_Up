@@ -24,9 +24,10 @@ const postRecipe = (recipe) => ({
   payload: recipe
 })
 
-const deleteRecipe = (id) => ({
+const deleteRecipe = (id, dataObj) => ({
   type: DELETE_RECIPE,
-  payload: id
+  payload: id,
+  data: dataObj
 })
 
 export const getAllRecipesThunk = () => async (dispatch) => {
@@ -102,7 +103,7 @@ export const deleteRecipeThunk = (recipeId) => async (dispatch) => {
 
     if (res.ok) {
       const data = await res.json()
-      dispatch(deleteRecipe(recipeId))
+      dispatch(deleteRecipe(recipeId, data))
     } else {
       throw res
     }
@@ -120,7 +121,7 @@ const initialState = { byId: {}, allRecipes: [] }
 function recipeReducer(state = initialState, action) {
   let newState = {...state}
   switch(action.type) {
-    case GET_RECIPES:
+    case GET_RECIPES: {
       newState.allRecipes = action.payload;
 
       for (let i = 0; i < action.payload.length; i++) {
@@ -128,17 +129,20 @@ function recipeReducer(state = initialState, action) {
         newState.byId[recipe.id] = recipe
       }
       return newState
-    case GET_RECIPE:
+    }
+    case GET_RECIPE: {
       const recipe = action.payload
       newState.allRecipes = [recipe]
       newState.byId[recipe.id] = recipe
       return newState
-    case POST_RECIPE:
+    }
+    case POST_RECIPE: {
       const newRecipe = action.payload
       newState.allRecipes = [...newState.allRecipes, newRecipe]
       newState.byId[newRecipe.id] = newRecipe
       return newState
-    case DELETE_RECIPE:
+    }
+    case DELETE_RECIPE: {
       const newById = {...newState.byId};
       delete newById[action.payload];
       newState.byId = newById
@@ -150,6 +154,7 @@ function recipeReducer(state = initialState, action) {
       newState.allRecipes = newAllRecipes
       
       return newState
+    }
     default:
       return state;
   }

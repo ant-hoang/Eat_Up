@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { postNewCommentThunk } from '../../store/comment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { getAllCommentsThunk } from '../../store/comment';
 

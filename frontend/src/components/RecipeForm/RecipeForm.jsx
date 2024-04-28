@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { postRecipeThunk } from '../../store/recipe';
@@ -25,7 +25,7 @@ function RecipeForm() {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (e) => {
+    reader.onload = () => {
       setPreviewVideo(reader.result);
     }
     setVideo(file);
@@ -36,7 +36,7 @@ function RecipeForm() {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (e) => {
+    reader.onload = () => {
       setPreviewImage(reader.result);
     }
     setImage(file);

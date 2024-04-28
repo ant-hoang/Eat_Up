@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { updateCommentThunk } from '../../store/comment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { getAllCommentsThunk } from '../../store/comment';
 
@@ -11,7 +11,6 @@ function EditCommentModal({ recipeId }) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
-  const user = useSelector((state) => state.session.user)
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});

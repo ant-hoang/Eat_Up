@@ -34,6 +34,9 @@ function DeleteCommentModal({props}) {
   return (
     <>
       <div className="delete-container">
+        {errors.message && (
+          <p className='error'>{errors.message}</p>
+        )}
         <h1 className="delete-text">Confirm Delete</h1>
         <h3 className="delete-text">Are you sure you want to delete this comment?</h3>
         <div className="delete-button red">

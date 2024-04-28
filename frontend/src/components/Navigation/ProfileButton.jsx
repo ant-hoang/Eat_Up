@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
@@ -7,7 +6,6 @@ import './ProfileButton.css'
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
 
   const logout = (e) => {
     e.preventDefault();
@@ -15,6 +13,7 @@ function ProfileButton({ user }) {
   };
 
   const handleAddRecipe = (e) => {
+    e.preventDefault()
     navigate('/recipes/new')
   }
 

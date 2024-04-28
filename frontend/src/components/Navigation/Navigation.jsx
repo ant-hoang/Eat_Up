@@ -31,7 +31,7 @@ function Navigation({ isLoaded }) {
       <>
         <div className="nav-no-session" id="nav-no-session">
           <li className='nav-demo' id='nav-demo'>
-            <button onClick={handleDemoClick}>"Demo" Log In</button>
+            <button onClick={handleDemoClick}>Demo Log In</button>
           </li>
           <li className='nav-log-in' id='nav-log-in'>
             <OpenModalButton

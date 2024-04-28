@@ -1,7 +1,5 @@
-// frontend/src/components/LoginFormModal/LoginFormModal.jsx
-
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import { deleteRecipeThunk } from '../../store/recipe';
 import './DeleteRecipe.css'
@@ -34,6 +32,9 @@ function DeleteRecipeModal() {
   return (
     <>
       <div className="delete-container">
+        {errors.message && (
+          <p className='error'>{errors.message}</p>
+        )}
         <h1 className="delete-text">Confirm Delete</h1>
         <h3 className="delete-text">Are you sure you want to delete this recipe?</h3>
         <div className="delete-button red">
