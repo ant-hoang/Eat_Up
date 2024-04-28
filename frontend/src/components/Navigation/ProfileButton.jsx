@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import './ProfileButton.css'
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
   const logout = (e) => {
@@ -14,6 +16,10 @@ function ProfileButton({ user }) {
   };
 
   // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
+  const handleAddRecipe = (e) => {
+    navigate('/recipes/new')
+  }
 
   return (
     <>
@@ -25,7 +31,7 @@ function ProfileButton({ user }) {
         <li>Hello, {user.username}!</li>
         <li>
           <button
-            onClick={() => {alert("Feature to be added shortly")}}
+            onClick={handleAddRecipe}
             className="profile-add-recipe"
             id="profile-add-recipe"
           >Add a recipe!</button>

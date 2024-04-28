@@ -140,6 +140,20 @@ function commentReducer(state = initialState, action) {
 
       newState.allComments = newAllComments
       return newState
+    case UPDATE_COMMENT:
+      const newArr = [...newState.allComments]
+      const newUpdatedId = {...newState.byId};
+      for (let i =0; i < newArr.length; i++) {
+        let currComment = newArr[i];
+        if (currComment.id === action.payload.id) {
+          newArr[i] = action.payload;
+          break;
+        }
+      }
+      newState.allComments = newArr;
+
+      newUpdatedId[action.payload.id] = action.payload;
+      newState.byId = newUpdatedId
     default:
       return state;
   }

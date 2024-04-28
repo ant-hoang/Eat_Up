@@ -11,7 +11,7 @@ import DeleteCommentModal from '../DeleteCommentModal/DeleteCommentModal'
 import LoginFormModal from '../LoginFormModal'
 
 
-import video from '../../videos/Gordon_Ramsay.mp4'
+import video from '../../videos/Pedro_Pascal_meme.mp4'
 import './RecipeDetails.css'
 
 
@@ -59,7 +59,7 @@ function RecipeDetails() {
           <p className='recipe-description' id='recipe-description'>{recipe.description}</p>
 
           <div id="media-player">
-            <video src={video} width="800" height="500" controls>
+            <video src={recipe.video} width="800" height="500" controls>
             </video>
           </div>
 

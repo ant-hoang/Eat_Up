@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 const GET_RECIPES = '/recipes/getRecipes'
 const GET_RECIPE = 'recipes/getRecipe'
+const POST_RECIPE = 'recipes/postRecipe'
 
 const getRecipes = (recipes) => {
   return {
@@ -16,6 +17,11 @@ const getRecipe = (recipe) => {
     payload: recipe.recipeJSON
   }
 }
+
+const postRecipe = (recipe) => ({
+  type: POST_RECIPE,
+  payload: recipe
+})
 
 export const getAllRecipesThunk = () => async (dispatch) => {
   try {
@@ -45,7 +51,41 @@ export const getOneRecipeThunk = (recipeId) => async (dispatch) => {
     const data = await err.json()
     return data
   }
-} 
+}
+
+export const postRecipeThunk = (payload) => async (dispatch) => {
+  const {title, description, origin, directions, video, image} = payload
+  try {
+    const formData = new FormData();
+
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('origin', origin)
+    formData.append('directions', directions)
+    formData.append('files', video)
+    formData.append('files', image)
+
+    const option = {
+      method: "POST",
+      headers: { 'Content-Type': 'multipart/form-data' },
+      body: formData
+    }
+
+    const res = await csrfFetch('/api/recipes', option)
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(postRecipe(data))
+      return data
+    } else {
+      throw res
+    }
+  } catch (err) {
+    const data = await err.json()
+    return data
+  }
+}
+
+
 
 // Reducer
 const initialState = { byId: {}, allRecipes: [] }
@@ -65,6 +105,11 @@ function recipeReducer(state = initialState, action) {
       const recipe = action.payload
       newState.allRecipes = [recipe]
       newState.byId[recipe.id] = recipe
+      return newState
+    case POST_RECIPE:
+      const newRecipe = action.payload
+      newState.allRecipes = [...newState.allRecipes, newRecipe]
+      newState.byId[newRecipe.id] = newRecipe
       return newState
     default:
       return state;

@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
 import RecipeDetails from './components/RecipeDetails';
+import RecipeForm from './components/RecipeForm/RecipeForm';
 import * as sessionActions from './store/session';
 
 function Layout() {
@@ -35,7 +36,11 @@ const router = createBrowserRouter([
       {
         path: '/recipes/:recipeId',
         element: <RecipeDetails />
-      }
+      },
+      {
+        path: '/recipes/new',
+        element: <RecipeForm />
+      },
     ]
   }
 ]);

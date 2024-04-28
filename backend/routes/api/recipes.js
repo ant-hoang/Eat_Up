@@ -7,6 +7,8 @@ const { validateRecipe, validateIngredient } = require('../../utils/validators/r
 const { validateComment } = require('../../utils/validators/comments')
 const { check } = require('express-validator')
 
+const { singleMulterUpload, multipleMulterUpload, multiplePublicFileUpload } = require('../../awsS3')
+
 const router = express.Router()
 
 /* 
@@ -408,14 +410,25 @@ router.delete('/:recipeId', requireAuth, async (req, res, next) => {
 })
 
 // creates a recipe
-router.post('/', requireAuth, validateRecipe, async (req, res, next) => {
+router.post('/', requireAuth, multipleMulterUpload('files'), validateRecipe, async (req, res, next) => {
   const { title, description, origin, directions } = req.body
   const userId = req.user.id
+  console.log("REQ_BODY", req.body)
 
-  const recipe = await Recipe.create({ userId, title, description, origin, directions })
+  console.log("REQ_FILES: ", req.files[0].mimetype.startsWith('image'))
 
-  res.status(201)
-  res.json(recipe)
+  // const recipe = await Recipe.create({ userId, title, description, origin, directions })
+
+  if (req.files.length) {
+    files = await multiplePublicFileUpload(req.files)
+  }
+
+  console.log("FILES: ", files)
+
+
+  // res.status(201)
+  // res.json(recipe)
+  return 'Success'
 })
 
 // gets all recipes
