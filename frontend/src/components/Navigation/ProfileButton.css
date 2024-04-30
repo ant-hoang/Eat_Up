@@ -5,7 +5,7 @@
 }
 
 #profile-add-recipe {
-  background-color: rgb(0, 255, 34);
+  background-color: orange;
   border-radius: 10px;
   margin-left: 15px;
   margin-top: 5px;
@@ -16,7 +16,7 @@
 }
 
 #profile-log-out {
-  background-color: rgb(0, 255, 34);
+  background-color: orange;
   border-radius: 10px;
   margin-left: 30px;
   margin-top: 5px;
