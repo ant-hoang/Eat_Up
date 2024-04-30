@@ -52,8 +52,8 @@ function RecipeDetails() {
             <div className='recipe-title' id='recipe-title'>
               <div>
                 <h3>Welcome back owner</h3>
-                <button onClick={handleUpdate}>Edit Recipe</button>
-                <button onClick={handleDelete}>Delete Recipe</button>
+                <button id='recipe-title-edit-button' onClick={handleUpdate}>Edit Recipe</button>
+                <button id='recipe-title-delete-button' onClick={handleDelete}>Delete Recipe</button>
               </div>
             </div> : ''}
           <h1 className='recipe-title' id='recipe-title'>{recipe.title}</h1>
@@ -98,7 +98,7 @@ function RecipeDetails() {
 
               <OpenModalButton
                 buttonText={"Add a comment"}
-                modalComponent={<CommentFormModal recipeId={recipeId}/>}
+                modalComponent={<CommentFormModal recipeId={recipeId} />}
               />
 
               : ''}
@@ -107,18 +107,18 @@ function RecipeDetails() {
                 <>
                   <p>@{comment.User && comment.User.username}</p>
                   <p>{comment.comment}</p>
-                  {user && comment.userId === user.id ? 
+                  {user && comment.userId === user.id ?
                     <OpenModalButton
                       buttonText={"Edit comment"}
                       modalComponent={<EditCommentModal recipeId={recipeId} />}
                     />
-                  : ''}
-                  {user && comment.userId === user.id ? 
+                    : ''}
+                  {user && comment.userId === user.id ?
                     <OpenModalButton
                       buttonText={"Delete comment"}
-                      modalComponent={<DeleteCommentModal props={{commentId: comment.id, recipeId}}/>}
+                      modalComponent={<DeleteCommentModal props={{ commentId: comment.id, recipeId }} />}
                     />
-                  : ''}
+                    : ''}
                 </>
               )
             }) : <p>Be the first to comment this recipe!</p>}

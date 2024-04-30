@@ -1,0 +1,35 @@
+.signup-form {
+  display: grid;
+  grid-template-rows: auto;
+  height: 400px;
+  width: 500px;
+}
+
+.signup-h1 {
+  display: flex;
+  justify-content: center;
+}
+
+.signup-label {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  height: 30px;
+}
+
+.signup-input {
+  position: relative;
+  width: 400px;
+}
+
+.signup-button {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 40px 40px 40px;
+}
+
+#signup-error {
+  margin: 5px 5px 5px 110px;
+}

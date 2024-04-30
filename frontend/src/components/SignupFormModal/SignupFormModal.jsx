@@ -43,71 +43,77 @@ function SignupFormModal() {
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      <h1 className="signup-h1" id="signup-h1">Sign Up</h1>
+      <form className="signup-form" id="signup-form" onSubmit={handleSubmit}>
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="text"
+            placeholder='Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        {errors.email && <p className='error'>{errors.email}</p>}
-        <label>
-          Username
+        {errors.email && <p className='error' id='signup-error'>{errors.email}</p>}
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="text"
+            placeholder='Username'
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p className='error'>{errors.username}</p>}
-        <label>
-          First Name
+        {errors.username && <p className='error' id='signup-error'>{errors.username}</p>}
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="text"
+            placeholder='First Name'
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
         </label>
-        {errors.firstName && <p className='error'>{errors.firstName}</p>}
-        <label>
-          Last Name
+        {errors.firstName && <p className='error' id='signup-error'>{errors.firstName}</p>}
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="text"
+            placeholder='Last Name'
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
         </label>
-        {errors.lastName && <p className='error'>{errors.lastName}</p>}
-        <label>
-          Password
+        {errors.lastName && <p className='error' id='signup-error'>{errors.lastName}</p>}
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="password"
+            placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p className='error'>{errors.password}</p>}
-        <label>
-          Confirm Password
+        {errors.password && <p className='error' id='signup-error'>{errors.password}</p>}
+        <label className="signup-label">
           <input
+            className="signup-input"
             type="password"
+            placeholder='Confirm Password'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
         {errors.confirmPassword && (
-          <p className='error'>{errors.confirmPassword}</p>
+          <p className='error' id='signup-error'>{errors.confirmPassword}</p>
         )}
-        <button type="submit">Sign Up</button>
+        <button className='signup-button' type="submit">Sign Up</button>
       </form>
     </>
   );

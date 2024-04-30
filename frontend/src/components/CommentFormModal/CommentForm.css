@@ -1,0 +1,21 @@
+.comment-header {
+  display: flex;
+  justify-content: center;
+}
+
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 20px 10px 20px;
+}
+
+.comment-label {
+  display: flex;
+  justify-content: center;
+}
+
+.comment-button {
+  text-align: center;
+  margin: 10px 0px 10px 0px;
+}

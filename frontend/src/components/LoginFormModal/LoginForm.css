@@ -1,0 +1,28 @@
+#log-in-header {
+  display: flex;
+  justify-content: center;
+}
+
+#log-in-form {
+  height: 120px;
+  width: 500px;
+}
+
+#login-label {
+  display: flex;
+  justify-content: center;
+}
+
+#log-in-input {
+  width: 400px;
+  margin: 3px 45px 3px 45px;
+}
+
+#error-log-in {
+  margin: 3px 45px 3px 110px;
+}
+
+#log-in-submit {
+  width: 407px;
+  margin: 3px 45px 3px 45px;
+}

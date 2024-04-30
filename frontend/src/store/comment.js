@@ -25,8 +25,10 @@ const deleteComment = (comment, id) => ({
 
 const updateComment = (comment) => ({
   type: UPDATE_COMMENT,
-  paylaod: comment
+  payload: comment
 })
+
+
 
 
 export const getAllCommentsThunk = (recipeId) => async (dispatch) => {
@@ -38,7 +40,7 @@ export const getAllCommentsThunk = (recipeId) => async (dispatch) => {
       return data
     }
   } catch (err) {
-    const errors = err.json()
+    const errors = await err.json()
     return errors
   }
 }
@@ -54,14 +56,14 @@ export const postNewCommentThunk = (form, recipeId) => async (dispatch) => {
       })
     }
     const res = await csrfFetch(`/api/recipes/${recipeId}/comments`, options)
-    
+
     if (res.ok) {
       const data = await res.json()
       dispatch(postComment(data))
       return res
     }
   } catch (err) {
-    const data = err.json()
+    const data = await err.json()
     return data
   }
 }
@@ -84,7 +86,7 @@ export const updateCommentThunk = (form, recipeId) => async (dispatch) => {
       return res
     }
   } catch (err) {
-    const data = err.json()
+    const data = await err.json()
     return data
   }
 }
@@ -132,7 +134,7 @@ function commentReducer(state = initialState, action) {
       return newState;
     }
     case DELETE_COMMENT: {
-      const newById = {...newState.byId};
+      const newById = { ...newState.byId };
       delete newById[action.payload]
       newState.byId = newById
 
@@ -145,8 +147,8 @@ function commentReducer(state = initialState, action) {
     }
     case UPDATE_COMMENT: {
       const newArr = [...newState.allComments]
-      const newUpdatedId = {...newState.byId};
-      for (let i =0; i < newArr.length; i++) {
+      const newUpdatedId = { ...newState.byId };
+      for (let i = 0; i < newArr.length; i++) {
         let currComment = newArr[i];
         if (currComment.id === action.payload.id) {
           newArr[i] = action.payload;

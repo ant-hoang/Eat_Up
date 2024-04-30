@@ -46,8 +46,11 @@ function RecipeForm() {
   const checkErrors = (title, description, origin, directions) => {
     const errorList = []
     if (!title) errorList.push('Title is required')
+    if (title.length > 50) errorList.push('Number of Title characters too long')
     if (!description) errorList.push('Description is required')
+    if (title.length > 50) errorList.push('Number of Description characters too long')
     if (!origin) errorList.push('Origin is required')
+    if (title.length > 50) errorList.push('Number of Origin characters too long')
     if (!directions) errorList.push('Directions is required')
 
     return errorList
@@ -105,22 +108,22 @@ function RecipeForm() {
 
   return (
     <>
-      <h1>Add your new Recipe!</h1>
+      <h1 className='recipe-form-header'>Add your new Recipe!</h1>
       {errors.length > 0 ? errors.map((error) => {
         return (
           <>
-            <ul className='error'>
+            <ul className='error' id='recipe-form-error'>
               <li>{error}</li>
             </ul>
           </>
         )
       }) : ''}
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className='recipe-form' onSubmit={handleSubmit}>
+        <div className='new-recipe-container'>
           <label htmlFor="new-recipe-title">What is the name of your recipe?
             <input
-              className='new-recipe-title'
+              className='new-recipe-input'
               id='new-recipe-title'
               type='text'
               placeholder='Title'
@@ -130,10 +133,10 @@ function RecipeForm() {
           </label>
         </div>
 
-        <div>
+        <div className='new-recipe-container'>
           <label htmlFor="new-recipe-description">Tell us more about your recipe!
             <textarea
-              className='new-recipe-description'
+              className='new-recipe-input'
               id='new-recipe-description'
               type='text'
               placeholder='Description'
@@ -143,10 +146,10 @@ function RecipeForm() {
           </label>
         </div>
 
-        <div>
+        <div className='new-recipe-container'>
           <label htmlFor="new-recipe-origin">Where did your recipe originate from?
             <input
-              className='new-recipe-origin'
+              className='new-recipe-input'
               id='new-recipe-origin'
               type='text'
               placeholder='Origin'
@@ -156,10 +159,10 @@ function RecipeForm() {
           </label>
         </div>
 
-        <div>
+        <div className='new-recipe-container'>
           <label htmlFor="new-recipe-directions">Tell us how to make this dish
             <textarea
-              className='new-recipe-directions'
+              className='new-recipe-input'
               id='new-recipe-directions'
               type='text'
               placeholder='Directions'
@@ -169,11 +172,12 @@ function RecipeForm() {
           </label>
         </div>
 
-        <div>
+        <div className='new-recipe-container'>
           {showVideo && (
             <label htmlFor='file-upload-video'> Show us a video of how to make this recipe
               <input
                 type='file'
+                className='new-recipe-input'
                 id='file-upload-video'
                 name="video_url"
                 onChange={updateVideo}
@@ -192,11 +196,12 @@ function RecipeForm() {
           )}
         </div>
 
-        <div>
+        <div className='new-recipe-container'>
           {showImage && (
             <label htmlFor='file-upload-video'> Show us an image of what the final dish looks like
               <input
                 type='file'
+                className='new-recipe-input'
                 id='file-upload-video'
                 name="img_url"
                 onChange={updateImage}
@@ -213,7 +218,9 @@ function RecipeForm() {
             </div>
           )}
         </div>
-        <button className='submit-button'>Create Recipe</button>
+        <div className='new-recipe-container'>
+          <button className='submit-button' id='new-recipe-button'>Create Recipe</button>
+        </div>
       </form>
     </>
   )

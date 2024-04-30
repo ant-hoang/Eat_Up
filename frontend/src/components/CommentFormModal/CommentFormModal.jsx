@@ -3,47 +3,40 @@ import { postNewCommentThunk } from '../../store/comment';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { getAllCommentsThunk } from '../../store/comment';
+import './CommentForm.css'
 
 
 function CommentFormModal({recipeId}) {
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
-  const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
     return dispatch(postNewCommentThunk({ comment }, recipeId))
       .then(() => dispatch(getAllCommentsThunk(recipeId)))
       .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
   };
 
   return (
     <>
-      <h1>Add your comment</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Comment
+      <h1 className='comment-header'>Add your comment</h1>
+      <form className='comment-form' onSubmit={handleSubmit}>
+        <label className='comment-label'>
           <textarea
             type="textbox"
             rows={6}
             cols={60}
+            placeholder='Leave a comment...(10 characters or more)'
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             required
           />
         </label>
-        {errors.message && (
-          <p className='error'>{errors.message}</p>
-        )}
-        <button type="submit">Submit</button>
+        {comment.length > 80 ? (
+          <p className='error'>Comment cannot be more than 80 characters</p>
+        ): ''}
+        <button className='comment-button' disabled={comment.length < 10 || comment.length > 80} type="submit">Submit your comment</button>
       </form>
     </>
   );
