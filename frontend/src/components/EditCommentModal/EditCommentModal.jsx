@@ -12,7 +12,6 @@ function EditCommentModal({ recipeId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
     return dispatch(updateCommentThunk({ comment }, recipeId))
       .then(() => dispatch(getAllCommentsThunk(recipeId)))
       .then(closeModal)
@@ -36,7 +35,7 @@ function EditCommentModal({ recipeId }) {
         {comment.length > 80 ? (
           <p className='error'>Comment cannot be more than 80 characters</p>
         ) : ''}
-        <button className='comment-button' disabled={comment.length < 10} type="submit">Submit</button>
+        <button className='comment-button' disabled={comment.length < 10 || comment.length > 80} type="submit">Submit</button>
       </form>
     </>
   );

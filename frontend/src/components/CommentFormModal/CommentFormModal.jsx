@@ -10,9 +10,9 @@ function CommentFormModal({recipeId}) {
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
   const { closeModal } = useModal();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
     return dispatch(postNewCommentThunk({ comment }, recipeId))
       .then(() => dispatch(getAllCommentsThunk(recipeId)))
       .then(closeModal)
