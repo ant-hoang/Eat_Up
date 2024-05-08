@@ -2,18 +2,20 @@ import { useState } from 'react';
 import { updateCommentThunk } from '../../store/comment';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
+import { useSelector } from 'react-redux';
 import { getAllCommentsThunk } from '../../store/comment';
 
 
-function EditCommentModal({ recipeId }) {
+function EditCommentModal({ props }) {
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
+  const currComment = useSelector((state) => state.comments.byId[props.commentId])
+  const [comment, setComment] = useState(currComment.comment);
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    return dispatch(updateCommentThunk({ comment }, recipeId))
-      .then(() => dispatch(getAllCommentsThunk(recipeId)))
+    return dispatch(updateCommentThunk({ comment }, props.recipeId))
+      .then(() => dispatch(getAllCommentsThunk(props.recipeId)))
       .then(closeModal)
   };
 

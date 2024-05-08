@@ -10,7 +10,7 @@ function UpdateRecipeForm() {
   const navigate = useNavigate();
   const { recipeId } = useParams()
   const recipe = useSelector((state) => state.recipes.byId[recipeId])
-  console.log("RECIPE", recipe)
+
   const [title, setTitle] = useState(recipe.title)
   const [description, setDescription] = useState(recipe.description)
   const [origin, setOrigin] = useState(recipe.origin)
@@ -66,7 +66,6 @@ function UpdateRecipeForm() {
     setErrors([])
     const errorList = checkErrors(title, description, origin, directions)
     setErrors(errorList)
-    console.log("ERRORS: ", errors)
     if (errorList.length) return
 
     const payload = {
@@ -78,29 +77,8 @@ function UpdateRecipeForm() {
       image: image
     }
 
-    setTitle('')
-    setDescription('')
-    setOrigin('')
-    setDirections('')
-    setVideo('')
-    setShowVideo(true)
-    setPreviewVideo('')
-    setImage('')
-    setShowImage(true)
-    setPreviewImage('')
-
     return await dispatch(updateRecipeThunk(payload, recipeId))
       .then(() => {
-        setTitle('')
-        setDescription('')
-        setOrigin('')
-        setDirections('')
-        setVideo('')
-        setShowVideo(true)
-        setPreviewVideo('')
-        setImage('')
-        setShowImage(true)
-        setPreviewImage('')
         navigate(`/recipes/${recipeId}`)
       })
       .catch((data) => {

@@ -62,7 +62,6 @@ function RecipeForm() {
     setErrors([])
     const errorList = checkErrors(title, description, origin, directions)
     setErrors(errorList)
-    console.log("ERRORS: ", errors)
     if (errorList.length) return
 
     const payload = {

@@ -110,7 +110,7 @@ function RecipeDetails() {
                   {user && comment.userId === user.id ?
                     <OpenModalButton
                       buttonText={"Edit comment"}
-                      modalComponent={<EditCommentModal recipeId={recipeId} />}
+                      modalComponent={<EditCommentModal props={{commentId: comment.id, recipeId}} />}
                     />
                     : ''}
                   {user && comment.userId === user.id ?
