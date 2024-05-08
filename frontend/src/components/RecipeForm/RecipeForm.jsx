@@ -74,29 +74,8 @@ function RecipeForm() {
       image: image
     }
 
-    setTitle('')
-    setDescription('')
-    setOrigin('')
-    setDirections('')
-    setVideo('')
-    setShowVideo(true)
-    setPreviewVideo('')
-    setImage('')
-    setShowImage(true)
-    setPreviewImage('')
-
     return await dispatch(postRecipeThunk(payload))
       .then(() => {
-        setTitle('')
-        setDescription('')
-        setOrigin('')
-        setDirections('')
-        setVideo('')
-        setShowVideo(true)
-        setPreviewVideo('')
-        setImage('')
-        setShowImage(true)
-        setPreviewImage('')
         navigate('/')
       })
       .catch((data) => {
