@@ -5,6 +5,7 @@ const GET_RECIPE = 'recipes/getRecipe'
 const POST_RECIPE = 'recipes/postRecipe'
 const DELETE_RECIPE = 'recipes/deleteRecipe'
 const UPDATE_RECIPE = 'recipes/updateRecipe'
+const ADD_INGREDIENT = 'recipes/addIngredient'
 
 const getRecipes = (recipes) => {
   return {
@@ -33,6 +34,11 @@ const deleteRecipe = (id, dataObj) => ({
 
 const updateRecipe = (recipe) => ({
   type: UPDATE_RECIPE,
+  payload: recipe
+})
+
+const addIngredient = (recipe) => ({
+  type: ADD_INGREDIENT,
   payload: recipe
 })
 
@@ -145,6 +151,30 @@ export const updateRecipeThunk = (payload, recipeId) => async (dispatch) => {
     } else {
       throw res
     }
+  } catch (err) {
+    const data = await err.json()
+    return data
+  }
+}
+
+export const addIngredientThunk = (payload, recipeId) => async (dispatch) => {
+  const options = {
+    method: 'POST',
+    headers: 'application/json',
+    body: payload
+  }
+
+  try {
+    const res = await csrfFetch(`/api/recipes/${recipeId}/ingredients`, options)
+
+    if (res.ok) {
+      const data = res.json()
+      await dispatch(addIngredient(data))
+      return data
+    } else {
+      throw res
+    }
+
   } catch (err) {
     const data = await err.json()
     return data
