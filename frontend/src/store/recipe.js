@@ -6,6 +6,7 @@ const POST_RECIPE = 'recipes/postRecipe'
 const DELETE_RECIPE = 'recipes/deleteRecipe'
 const UPDATE_RECIPE = 'recipes/updateRecipe'
 const ADD_INGREDIENT = 'recipes/addIngredient'
+const DELETE_INGREDIENT = 'recipes/deleteIngredient'
 
 const getRecipes = (recipes) => {
   return {
@@ -40,6 +41,12 @@ const updateRecipe = (recipe) => ({
 const addIngredient = (recipe) => ({
   type: ADD_INGREDIENT,
   payload: recipe
+})
+
+const deleteIngredient = (id, dataObj) => ({
+  type: DELETE_INGREDIENT,
+  payload: id,
+  data: dataObj
 })
 
 export const getAllRecipesThunk = () => async (dispatch) => {
@@ -169,12 +176,34 @@ export const addIngredientThunk = (payload, recipeId) => async (dispatch) => {
 
     if (res.ok) {
       const data = res.json()
+      console.log("INGREDIENT_DATA: ", data)
       await dispatch(addIngredient(data))
       return data
     } else {
       throw res
     }
 
+  } catch (err) {
+    const data = await err.json()
+    return data
+  }
+}
+
+export const deleteIngredientThunk = (recipeId, ingredientId) => async (dispatch) => {
+  try {
+    const options = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    }
+
+    const res = await csrfFetch(`/api/recipes/${recipeId}/ingredients/${ingredientId}`, options)
+
+    if (res.ok) {
+      const data = await res.json()
+      dispatch(deleteIngredient(ingredientId, data))
+    } else {
+      throw res
+    }
   } catch (err) {
     const data = await err.json()
     return data
@@ -235,6 +264,24 @@ const initialState = { byId: {}, allRecipes: [] }
         newState.allRecipes = newArr;
 
         newUpdatedId[action.payload.id] = action.payload;
+        newState.byId = newUpdatedId
+        return newState
+      }
+      case ADD_INGREDIENT: {
+        const newArr = [...newState.allRecipes]
+        const newUpdatedId = {...newState.byId}
+        for (let i = 0; i < newArr.length; i++) {
+          let currRecipe = newArr[i];
+          if (currRecipe.id === action.payload.recipeId) {
+            newArr[i].Ingredients.push(action.payload)
+            delete newArr[i].Ingredients[newArr[i].Ingredients.length - 1].recipeId
+            break
+          }
+        }
+        newState.allRecipes = newArr
+
+        newUpdatedId[action.payload.recipeId].Ingredients.push(action.payload)
+        delete newUpdatedId[action.payload.recipeId].Ingredients[newUpdatedId[action.payload.recipeId].Ingredients.length - 1].recipeId
         newState.byId = newUpdatedId
         return newState
       }

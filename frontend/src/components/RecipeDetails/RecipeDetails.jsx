@@ -104,7 +104,7 @@ function RecipeDetails() {
               : ''}
             {comments.length ? comments.map((comment) => {
               return (
-                <>
+                <div key={comment.id}>
                   <p>@{comment.User && comment.User.username}</p>
                   <p>{comment.comment}</p>
                   {user && comment.userId === user.id ?
@@ -119,7 +119,7 @@ function RecipeDetails() {
                       modalComponent={<DeleteCommentModal props={{ commentId: comment.id, recipeId }} />}
                     />
                     : ''}
-                </>
+                </div>
               )
             }) : <p>Be the first to comment this recipe!</p>}
           </div>
