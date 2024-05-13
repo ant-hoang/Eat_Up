@@ -279,12 +279,21 @@ const initialState = { byId: {}, allRecipes: [] }
           }
         }
         newState.allRecipes = newArr
-
+        
         newUpdatedId[action.payload.recipeId].Ingredients.push(action.payload)
         delete newUpdatedId[action.payload.recipeId].Ingredients[newUpdatedId[action.payload.recipeId].Ingredients.length - 1].recipeId
         newState.byId = newUpdatedId
         return newState
       }
+      // case DELETE_INGREDIENT: {
+      //   const newArr = [...newState.allRecipes]
+      //   const newUpdatedId = {...newState.byId}
+      //   for (let i = 0; i < newArr.length; i++) {
+      //     let currRecipe = newArr[i]
+      //     if (currRecipe.Ingredients.find())
+      //   }
+
+      // }
       default:
         return state;
     }
