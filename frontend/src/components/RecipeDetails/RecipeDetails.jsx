@@ -1,17 +1,27 @@
+// React
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+
+// Thunks
 import { getOneRecipeThunk } from '../../store/recipe'
 import { getAllCommentsThunk } from '../../store/comment'
+
+// Icons
 import { MdOutlineThumbUpOffAlt } from "react-icons/md";
+
+// Modals
 import OpenModalButton from '../OpenModalButton'
 import CommentFormModal from '../CommentFormModal/CommentFormModal'
 import EditCommentModal from '../EditCommentModal/EditCommentModal'
+import IngredientFormModal from '../IngredientFormModal'
+import DeleteIngredientModal from '../DeleteIngredientModal'
 import DeleteCommentModal from '../DeleteCommentModal/DeleteCommentModal'
 
+// CSS
 import './RecipeDetails.css'
 
-
+// Layout
 function RecipeDetails() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -76,12 +86,18 @@ function RecipeDetails() {
           </div>
 
           <div className='recipe-ingredients' id='recipe-ingredients'>
-            {user && user.id === recipe.userId ? <button onClick={() => alert('Functionality to be added in a later update')}>Add an ingredient</button> : ''}
+          {user && user.id === recipe.userId ? <OpenModalButton
+            buttonText={"Add an Ingredient"}
+            modalComponent={<IngredientFormModal recipeId={recipeId} />} // Ingredient Form Modal
+          /> : ''}
             <h3>Ingredients:</h3>
             {recipe.Ingredients && recipe.Ingredients.map((ingredient) => {
               return (<ul key={ingredient.id}>
                 <li>
-                  {ingredient.quantity} {ingredient.metric} - {ingredient.name} {user && user.id === recipe.userId ? <button onClick={() => alert('Functionality to be added in a later update')}>Delete</button> : ''}
+                  {ingredient.quantity} {ingredient.metric} - {ingredient.name} {user && user.id === recipe.userId ? <OpenModalButton
+                    buttonText={"Delete"}
+                    modalComponent={<DeleteIngredientModal props={{ ingredientId: ingredient.id, recipeId }} />} // Delete Ingredient Modal
+                  /> : ''}
                 </li>
               </ul>)
             })}

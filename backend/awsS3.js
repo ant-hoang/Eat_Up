@@ -3,10 +3,6 @@ const AWS = require("aws-sdk");
 const NAME_OF_BUCKET = process.env.AWS_BUCKET_NAME
 const multer = require("multer");
 
-//  make sure to set environment variables in production for:
-//  AWS_ACCESS_KEY_ID
-//  AWS_SECRET_ACCESS_KEY
-//  and aws will automatically use those environment variables
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY

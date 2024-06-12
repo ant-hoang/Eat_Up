@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     metric: {
       type: DataTypes.STRING,
       validate: {
-        isIn: [[null, 'tsp', 'Tbsp', 'cup', 'cups', 'pt', 'qt', 'oz', 'fl oz', 'gal', 'lb', 'lbs']]
+        isIn: [[null, '', 'tsp', 'Tbsp', 'cup', 'cups', 'pt', 'qt', 'oz', 'fl oz', 'gal', 'lb', 'lbs']]
       },
     },
     recipeId: {

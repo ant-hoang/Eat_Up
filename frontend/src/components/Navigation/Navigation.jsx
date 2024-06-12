@@ -63,6 +63,9 @@ function Navigation({ isLoaded }) {
           <PiBowlFoodLight />
         </NavLink>
       </li>
+      {/* <li>
+        <img className="home-cover" src={food_cover} alt="Food_Cover"/>
+      </li> */}
       {isLoaded && sessionLinks}
     </ul>
     // </div>
