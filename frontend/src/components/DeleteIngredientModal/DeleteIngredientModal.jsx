@@ -23,7 +23,6 @@ function DeleteIngredientModal({ props }) {
   const handleDelete = (e) => {
     e.preventDefault()
 
-    console.log("PROPS: ", props)
     return dispatch(deleteIngredientThunk(parseInt(props.recipeId), props.ingredientId))
       .then(() => dispatch(getOneRecipeThunk(props.recipeId)))
       .then(closeModal)
