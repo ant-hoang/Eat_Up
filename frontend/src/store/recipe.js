@@ -102,7 +102,6 @@ export const postRecipeThunk = (payload) => async (dispatch) => {
     const res = await csrfFetch('/api/recipes', option)
     if (res.ok) {
       const data = await res.json()
-      console.log("RECIPE_DATA: ", data)
       dispatch(postRecipe(data))
       return data
     } else {
@@ -272,7 +271,6 @@ const initialState = { byId: {}, allRecipes: [] }
       case ADD_INGREDIENT: {
         const newArr = [...newState.allRecipes]
         const newUpdatedId = {...newState.byId}
-        console.log("Ingredient_Array: ", newArr)
         for (let i = 0; i < newArr.length; i++) {
           let currRecipe = newArr[i];
           if (currRecipe.id === action.recipeId) {
