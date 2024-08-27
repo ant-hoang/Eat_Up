@@ -12,6 +12,10 @@ body {
   display: none
 }
 
+.list-style-none {
+  list-style: none;
+}
+
 .pointer:hover {
   cursor: pointer;
 }

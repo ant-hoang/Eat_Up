@@ -29,7 +29,7 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
-        <div className="nav-no-session border-red" id="nav-no-session">
+        <div className="nav-no-session" id="nav-no-session">
           <li className='nav-demo' id='nav-demo'>
             <button onClick={handleDemoClick}>Demo Log In</button>
           </li>
@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-      <div className='flex'>
+      <div className='flex content-between'>
         <NavLink className='flex' to='/'>
           <div>
             <PiBowlFoodLight />
@@ -61,6 +61,9 @@ function Navigation({ isLoaded }) {
             Eat Up
           </div>
         </NavLink>
+        <div className='list-style-none'>
+          {isLoaded && sessionLinks}
+        </div>
       </div>
 
       <div className='debug'>
