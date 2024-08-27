@@ -51,52 +51,61 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className='debug'>
-    {/* // <div className='nav-container' id='nav-container'> */}
-    <ul className={`${ulClassName} border-red`} id={ulClassName}>
-      <li className='nav-home border-blue' id='nav-home-text'>
-        <NavLink to="/">
-          Eat Up
+    <>
+      <div className='flex'>
+        <NavLink className='flex' to='/'>
+          <div>
+            <PiBowlFoodLight />
+          </div>
+          <div>
+            Eat Up
+          </div>
         </NavLink>
-      </li>
-      <li className='nav-home' id='nav-home-icon'>
-        <NavLink to="/">
-          <PiBowlFoodLight />
-        </NavLink>
-      </li>
-      {/* <li>
+      </div>
+
+      <div className='debug'>
+        <ul className={`${ulClassName} border-red`} id={ulClassName}>
+          <li className='nav-home border-blue flex' id='nav-home-text'>
+            <NavLink to="/">
+              Eat Up
+            </NavLink>
+            <NavLink to="/">
+              <PiBowlFoodLight />
+            </NavLink>
+          </li>
+          <li className='nav-home' id='nav-home-icon'>
+            <NavLink to="/">
+              <PiBowlFoodLight />
+            </NavLink>
+          </li>
+          {isLoaded && sessionLinks}
+        </ul>
+      </div>
+
+      <div>
+        {/* // </div> */}
+        {/* // <div className='nav-container' id='nav-container'> */}
+        <ul className={`${ulClassName} border-red`} id={ulClassName}>
+          <li className='nav-home border-blue' id='nav-home-text'>
+            <NavLink to="/">
+              Eat Up
+            </NavLink>
+          </li>
+          <li className='nav-home border-green' id='nav-home-icon'>
+            <NavLink to="/">
+              <PiBowlFoodLight />
+            </NavLink>
+          </li>
+          {/* <li>
         <img className="home-cover" src={food_cover} alt="Food_Cover"/>
-      </li> */}
-      {isLoaded && sessionLinks}
-    </ul>
+        </li> */}
+          {isLoaded && sessionLinks}
+        </ul>
+        {/* // </div> */}
+      </div>
 
 
-    {/* // </div> */}
-    {/* // <div className='nav-container' id='nav-container'> */}
-    <ul className={`${ulClassName} border-red`} id={ulClassName}>
-      <li className='nav-home border-blue' id='nav-home-text'>
-        <NavLink to="/">
-          Eat Up
-        </NavLink>
-      </li>
-      <li className='nav-home border-green' id='nav-home-icon'>
-        <NavLink to="/">
-          <PiBowlFoodLight />
-        </NavLink>
-      </li>
-      {/* <li>
-        <img className="home-cover" src={food_cover} alt="Food_Cover"/>
-      </li> */}
-      {isLoaded && sessionLinks}
-    </ul>
-    {/* // </div> */}
-
-
-
-      
-    </div>
-
-
+    </>
   );
 }
 
