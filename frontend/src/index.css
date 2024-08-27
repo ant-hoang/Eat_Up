@@ -8,6 +8,13 @@ body {
   color: red
 }
 
+.hidden {
+  display: none
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
 
 /* Margin & Padding */
 .my-1 {
@@ -47,6 +54,18 @@ body {
 
 .debug {
   outline: 1px solid red;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.border-blue {
+  border: 1px solid blue;
+}
+
+.border-green {
+  border: 1px solid green;
 }
 
 .border-round {

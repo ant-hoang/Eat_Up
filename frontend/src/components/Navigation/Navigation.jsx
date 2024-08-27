@@ -29,7 +29,7 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
-        <div className="nav-no-session" id="nav-no-session">
+        <div className="nav-no-session border-red" id="nav-no-session">
           <li className='nav-demo' id='nav-demo'>
             <button onClick={handleDemoClick}>Demo Log In</button>
           </li>
@@ -51,9 +51,10 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    // <div className='nav-container' id='nav-container'>
-    <ul className={ulClassName} id={ulClassName}>
-      <li className='nav-home' id='nav-home-text'>
+    <div className='debug'>
+    {/* // <div className='nav-container' id='nav-container'> */}
+    <ul className={`${ulClassName} border-red`} id={ulClassName}>
+      <li className='nav-home border-blue' id='nav-home-text'>
         <NavLink to="/">
           Eat Up
         </NavLink>
@@ -68,7 +69,34 @@ function Navigation({ isLoaded }) {
       </li> */}
       {isLoaded && sessionLinks}
     </ul>
-    // </div>
+
+
+    {/* // </div> */}
+    {/* // <div className='nav-container' id='nav-container'> */}
+    <ul className={`${ulClassName} border-red`} id={ulClassName}>
+      <li className='nav-home border-blue' id='nav-home-text'>
+        <NavLink to="/">
+          Eat Up
+        </NavLink>
+      </li>
+      <li className='nav-home border-green' id='nav-home-icon'>
+        <NavLink to="/">
+          <PiBowlFoodLight />
+        </NavLink>
+      </li>
+      {/* <li>
+        <img className="home-cover" src={food_cover} alt="Food_Cover"/>
+      </li> */}
+      {isLoaded && sessionLinks}
+    </ul>
+    {/* // </div> */}
+
+
+
+      
+    </div>
+
+
   );
 }
 
