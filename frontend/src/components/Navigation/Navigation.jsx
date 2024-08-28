@@ -21,51 +21,94 @@ function Navigation({ isLoaded }) {
 
   let sessionLinks;
   if (sessionUser) {
+    // New Code
     sessionLinks = (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    );
+      <section>
+        <div>
+          <ProfileButton user={sessionUser} />
+        </div>
+      </section>
+    )
+
+    // Old Code
+    // sessionLinks = (
+    //   <li>
+    //     <ProfileButton user={sessionUser} />
+    //   </li>
+    // );
   } else {
+    // New Code
     sessionLinks = (
       <>
-        <div className="nav-no-session" id="nav-no-session">
-          <li className='nav-demo' id='nav-demo'>
-            <button onClick={handleDemoClick}>Demo Log In</button>
-          </li>
-          <li className='nav-log-in' id='nav-log-in'>
-            <OpenModalButton
-              buttonText="Log In"
-              modalComponent={<LoginFormModal />}
-            />
-          </li>
-          <li className='nav-log-out' id='nav-log-out'>
-            <OpenModalButton
-              buttonText="Sign Up"
-              modalComponent={<SignupFormModal />}
-            />
-          </li>
-        </div>
+        <section>
+          <div className='log-container flex content-between'>
+            <li>
+              <button onClick={handleDemoClick}>Demo Log In</button>
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText='Log In'
+                modalComponent={<LoginFormModal />}
+              />
+            </li>
+            <li>
+              <OpenModalButton
+                buttonText="Sign Up"
+                modalComponent={<SignupFormModal />}
+              />
+            </li>
+          </div>
+        </section>
       </>
-    );
+    )
+
+    // Old Code
+    // sessionLinks = (
+    //   <>
+    //     <div className="nav-no-session" id="nav-no-session">
+    //       <li className='nav-demo' id='nav-demo'>
+    //         <button onClick={handleDemoClick}>Demo Log In</button>
+    //       </li>
+    //       <li className='nav-log-in' id='nav-log-in'>
+    //         <OpenModalButton
+    //           buttonText="Log In"
+    //           modalComponent={<LoginFormModal />}
+    //         />
+    //       </li>
+    //       <li className='nav-log-out' id='nav-log-out'>
+    //         <OpenModalButton
+    //           buttonText="Sign Up"
+    //           modalComponent={<SignupFormModal />}
+    //         />
+    //       </li>
+    //     </div>
+    //   </>
+    // );
   }
 
   return (
     <>
-      <div className='flex content-between'>
-        <NavLink className='flex' to='/'>
-          <div>
-            <PiBowlFoodLight />
+      {/* <--------------------------------New-Code------------------------------------------> */}
+      {/* Navigation Bar */}
+      <section className='new-nav-bar'>
+        {/* Home Icon Section */}
+        <div className='flex content-between'>
+          <NavLink className='flex' to='/'>
+            <div>
+              <PiBowlFoodLight />
+            </div>
+            <div>
+              Eat Up
+            </div>
+          </NavLink>
+          <div className='list-style-none'>
+            {/* Login Section */}
+            {isLoaded && sessionLinks}
           </div>
-          <div>
-            Eat Up
-          </div>
-        </NavLink>
-        <div className='list-style-none'>
-          {isLoaded && sessionLinks}
         </div>
-      </div>
+      </section>
 
+      {/* <--------------------------------Old-Code------------------------------------------> */}
       <div className='debug'>
         <ul className={`${ulClassName} border-red`} id={ulClassName}>
           <li className='nav-home border-blue flex' id='nav-home-text'>
