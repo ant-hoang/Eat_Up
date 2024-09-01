@@ -93,13 +93,8 @@ function Navigation({ isLoaded }) {
       <section className='new-nav-bar'>
         {/* Home Icon Section */}
         <div className='flex content-between'>
-          <NavLink className='flex' to='/'>
-            <div>
-              <PiBowlFoodLight />
-            </div>
-            <div>
-              Eat Up
-            </div>
+          <NavLink className='home-container flex' to='/'>
+              <PiBowlFoodLight className='home-icon'/><span className='home-text'>Eat Up</span>
           </NavLink>
           <div className='list-style-none'>
             {/* Login Section */}
@@ -108,8 +103,10 @@ function Navigation({ isLoaded }) {
         </div>
       </section>
 
+
+
       {/* <--------------------------------Old-Code------------------------------------------> */}
-      <div className='debug'>
+      {/* <div className='debug'>
         <ul className={`${ulClassName} border-red`} id={ulClassName}>
           <li className='nav-home border-blue flex' id='nav-home-text'>
             <NavLink to="/">
@@ -126,12 +123,11 @@ function Navigation({ isLoaded }) {
           </li>
           {isLoaded && sessionLinks}
         </ul>
-      </div>
+      </div> */}
 
-      <div>
-        {/* // </div> */}
+      {/* <div> */}
         {/* // <div className='nav-container' id='nav-container'> */}
-        <ul className={`${ulClassName} border-red`} id={ulClassName}>
+        {/* <ul className={`${ulClassName} border-red`} id={ulClassName}>
           <li className='nav-home border-blue' id='nav-home-text'>
             <NavLink to="/">
               Eat Up
@@ -142,15 +138,9 @@ function Navigation({ isLoaded }) {
               <PiBowlFoodLight />
             </NavLink>
           </li>
-          {/* <li>
-        <img className="home-cover" src={food_cover} alt="Food_Cover"/>
-        </li> */}
           {isLoaded && sessionLinks}
         </ul>
-        {/* // </div> */}
-      </div>
-
-
+      </div> */}
     </>
   );
 }

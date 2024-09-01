@@ -16,7 +16,17 @@
 }
 
 .new-nav-bar {
+  height: 6rem;
+}
+
+.home-container {
+  width: 15%;
+  font-size: 3rem;
+}
+
+.home-icon {
   height: 4rem;
+  width: 4rem;
 }
 
 .log-container {
