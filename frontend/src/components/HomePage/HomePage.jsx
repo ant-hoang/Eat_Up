@@ -24,7 +24,6 @@ function HomePage() {
 
   return (
     <div className='recipe-container' id='recipe-container'>
-      <h1>Test</h1>
       {recipes.length ? recipes.map((recipe) => {
         return (
           <div key={recipe.id} className='recipe-block' id='recipe-block'>

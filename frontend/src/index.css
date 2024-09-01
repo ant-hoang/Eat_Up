@@ -7,3 +7,122 @@ body {
 .error {
   color: red
 }
+
+.hidden {
+  display: none
+}
+
+.list-style-none {
+  list-style: none;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+/* Margin & Padding */
+.my-1 {
+  margin: 1rem 0;
+}
+
+.mx-1 {
+  margin: 0 1rem;
+}
+
+.py-1 {
+  padding: 1rem 0;
+}
+
+.px-1 {
+  padding: 0 1rem;
+}
+
+/* Flexbox */
+.flex {
+  display: flex;
+}
+
+.block {
+  display: block;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* Border & Outline */
+
+.debug {
+  outline: 1px solid red;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.border-blue {
+  border: 1px solid blue;
+}
+
+.border-green {
+  border: 1px solid green;
+}
+
+.border-round {
+  border-radius: 0.5rem;
+}
+
+/* Height & Width */
+
+.w-max-35 {
+  max-width: 35rem;
+}
+
+.w-100vw {
+  width: 100vw;
+}
+
+/* Positioning */
+.content-center {
+  justify-content: center;
+}
+
+.content-between {
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;;
+}
+
+/* Object fit */
+
+.obj-contain {
+  object-fit: contain;
+}
+
+.obj-cover {
+  object-fit: cover;
+}
+
+.obj-fill {
+  object-fit: fill;
+}
+
+/* Font */
+
+.font-size-1 {
+  font-size: 1rem;
+}
+
+.font-size-2 {
+  font-size: 2rem;
+}
+
+.font-size-2p5 {
+  font-size: 2.5rem;
+}
