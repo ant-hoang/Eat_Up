@@ -20,13 +20,23 @@
 }
 
 .home-container {
-  width: 15%;
+  width: auto;
   font-size: 3rem;
 }
 
 .home-icon {
   height: 4rem;
   width: 4rem;
+}
+
+.demo-button {
+  padding-right: 10px;
+  background-color: orange;
+  border-radius: 10px;
+}
+
+.demo-button:hover {
+  cursor: pointer;
 }
 
 .log-container {

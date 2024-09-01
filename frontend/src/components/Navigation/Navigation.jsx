@@ -41,22 +41,20 @@ function Navigation({ isLoaded }) {
     sessionLinks = (
       <>
         <section>
-          <div className='log-container flex content-between'>
-            <li>
-              <button onClick={handleDemoClick}>Demo Log In</button>
-            </li>
-            <li>
+          <div className='flex content-between my-1'>
+            <button className='demo-button mx-1' onClick={handleDemoClick}>Demo Log In</button>
+            <div className='mx-1'>
               <OpenModalButton
                 buttonText='Log In'
                 modalComponent={<LoginFormModal />}
               />
-            </li>
-            <li>
+              </div>
+              <div className='mx-1'>
               <OpenModalButton
                 buttonText="Sign Up"
                 modalComponent={<SignupFormModal />}
               />
-            </li>
+            </div>
           </div>
         </section>
       </>
@@ -90,11 +88,11 @@ function Navigation({ isLoaded }) {
     <>
       {/* <--------------------------------New-Code------------------------------------------> */}
       {/* Navigation Bar */}
-      <section className='new-nav-bar'>
+      <section className='py-1 px-1 ulClassName new-nav-bar'>
         {/* Home Icon Section */}
         <div className='flex content-between'>
           <NavLink className='home-container flex' to='/'>
-              <PiBowlFoodLight className='home-icon'/><span className='home-text'>Eat Up</span>
+            <PiBowlFoodLight className='home-icon' /><span className='home-text'>Eat Up</span>
           </NavLink>
           <div className='list-style-none'>
             {/* Login Section */}
@@ -126,8 +124,8 @@ function Navigation({ isLoaded }) {
       </div> */}
 
       {/* <div> */}
-        {/* // <div className='nav-container' id='nav-container'> */}
-        {/* <ul className={`${ulClassName} border-red`} id={ulClassName}>
+      {/* // <div className='nav-container' id='nav-container'> */}
+      {/* <ul className={`${ulClassName} border-red`} id={ulClassName}>
           <li className='nav-home border-blue' id='nav-home-text'>
             <NavLink to="/">
               Eat Up
