@@ -42,14 +42,14 @@ function Navigation({ isLoaded }) {
       <>
         <section>
           <div className='flex content-between my-1'>
-            <button className='demo-button mx-1' onClick={handleDemoClick}>Demo Log In</button>
+            <button className='demo-button' onClick={handleDemoClick}>Demo Log In</button>
             <div className='mx-1'>
               <OpenModalButton
                 buttonText='Log In'
                 modalComponent={<LoginFormModal />}
               />
               </div>
-              <div className='mx-1'>
+              <div>
               <OpenModalButton
                 buttonText="Sign Up"
                 modalComponent={<SignupFormModal />}
