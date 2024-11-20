@@ -20,14 +20,14 @@ function Layout() {
   }, [dispatch]);
 
   return (
-    <div className='body-element'>
-      <div>
+    <>
+      <div className='nav-bar'>
         <Navigation isLoaded={isLoaded} />
       </div>
       <div className='content-elements'>
         {isLoaded && <Outlet />}
       </div>
-    </div>
+    </>
   );
 }
 
