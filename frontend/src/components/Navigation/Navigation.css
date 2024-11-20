@@ -8,15 +8,16 @@
   justify-content: space-between;
 }
 
-#nav-bar {
+/* #nav-bar {
   list-style-type: none;
   display: grid;
   grid-template-columns: auto 9fr auto;
   height: 70px;
-}
+} */
 
 .new-nav-bar {
   height: 6rem;
+  background-color: lightcoral;
 }
 
 .home-container {

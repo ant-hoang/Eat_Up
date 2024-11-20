@@ -1,7 +1,15 @@
 /* TODO: Add sitewide styles */
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.body-element {
+  height: 100%;
+}
+
+.content-elements {
   background-color: rgb(238, 238, 175);
-  font-family: Helvetica, sans-serif
 }
 
 .error {
