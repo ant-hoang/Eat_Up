@@ -8,16 +8,18 @@ html, body {
 
 .nav-bar {
   display: absolute;
-  position: fixed;
+  position: sticky;
   overflow: hidden;
-  z-index: 1000;
+  z-index: 1;
   top: 0;
   width: 100%;
-  background-color: rgba(206, 221, 70);
+  background-color: #DCE4C9;
+
+  /* background-color: rgb(149, 165, 8); */
 }
 
 .content-elements {
-  background-color: rgb(238, 238, 175);
+  background-color: #F5F5DC;
 }
 
 .error {
