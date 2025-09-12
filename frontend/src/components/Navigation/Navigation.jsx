@@ -17,7 +17,7 @@ function Navigation({ isLoaded }) {
     dispatch(login({ credential: 'Demo-lition', password: 'password' }))
   }
 
-  const ulClassName = sessionUser ? "nav-bar-logged" : "nav-bar"
+  // const ulClassName = sessionUser ? "nav-bar-logged" : "nav-bar"
 
   let sessionLinks;
   if (sessionUser) {
@@ -88,13 +88,13 @@ function Navigation({ isLoaded }) {
     <>
       {/* <--------------------------------New-Code------------------------------------------> */}
       {/* Navigation Bar */}
-      <section className='py-1 px-1 ulClassName new-nav-bar'>
+      <section className='py-1 px-1 new-nav-bar'>
         {/* Home Icon Section */}
         <div className='flex content-between'>
           <NavLink className='home-container flex' to='/'>
-            <PiBowlFoodLight className='home-icon' /><span className='home-text'>Eat Up</span>
+            <PiBowlFoodLight className='home-icon' /><span className='home-text'>EatUp</span>
           </NavLink>
-          <div className='list-style-none'>
+          <div>
             {/* Login Section */}
             {isLoaded && sessionLinks}
           </div>

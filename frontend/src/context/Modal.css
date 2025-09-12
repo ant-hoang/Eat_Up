@@ -20,5 +20,7 @@
 
 #modal-content {
   position: absolute;
-  background-color: orange;
+  /* background-color: orange; */
+  background-color: rgb(211, 13, 178);
+  background-color: #FFEE93;
 }

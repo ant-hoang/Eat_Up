@@ -21,8 +21,12 @@ function Layout() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && <Outlet />}
+      <div className='nav-bar'>
+        <Navigation isLoaded={isLoaded} />
+      </div>
+      <div className='content-elements'>
+        {isLoaded && <Outlet />}
+      </div>
     </>
   );
 }

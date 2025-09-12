@@ -1,7 +1,25 @@
 /* TODO: Add sitewide styles */
-body {
-  background-color: rgb(238, 238, 175);
-  font-family: Helvetica, sans-serif
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  
+}
+
+.nav-bar {
+  display: absolute;
+  position: sticky;
+  overflow: hidden;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  background-color: #DCE4C9;
+
+  /* background-color: rgb(149, 165, 8); */
+}
+
+.content-elements {
+  background-color: #F5F5DC;
 }
 
 .error {
